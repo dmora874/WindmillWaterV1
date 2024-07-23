@@ -33,6 +33,9 @@
 		FF8121152C5050B300F21423 /* ItemFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8121142C5050B300F21423 /* ItemFormatter.swift */; };
 		FF8121172C5052C600F21423 /* MultipleSelectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8121162C5052C600F21423 /* MultipleSelectionRow.swift */; };
 		FF81211B2C505F3A00F21423 /* ProductSelectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF81211A2C505F3A00F21423 /* ProductSelectionRow.swift */; };
+		FF8121262C5067B400F21423 /* RouteSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8121252C5067B400F21423 /* RouteSummaryView.swift */; };
+		FF8121282C50689D00F21423 /* UserRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8121272C50689D00F21423 /* UserRole.swift */; };
+		FF81212C2C506A1100F21423 /* UserRoleEnvrionment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF81212B2C506A1100F21423 /* UserRoleEnvrionment.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +66,9 @@
 		FF8121142C5050B300F21423 /* ItemFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemFormatter.swift; sourceTree = "<group>"; };
 		FF8121162C5052C600F21423 /* MultipleSelectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionRow.swift; sourceTree = "<group>"; };
 		FF81211A2C505F3A00F21423 /* ProductSelectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSelectionRow.swift; sourceTree = "<group>"; };
+		FF8121252C5067B400F21423 /* RouteSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteSummaryView.swift; sourceTree = "<group>"; };
+		FF8121272C50689D00F21423 /* UserRole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRole.swift; sourceTree = "<group>"; };
+		FF81212B2C506A1100F21423 /* UserRoleEnvrionment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRoleEnvrionment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +85,6 @@
 		FF8120C22C501E9F00F21423 = {
 			isa = PBXGroup;
 			children = (
-				FF81211A2C505F3A00F21423 /* ProductSelectionRow.swift */,
 				FF8120CD2C501E9F00F21423 /* WindmillWaterV1 */,
 				FF8120CC2C501E9F00F21423 /* Products */,
 			);
@@ -96,31 +101,18 @@
 		FF8120CD2C501E9F00F21423 /* WindmillWaterV1 */ = {
 			isa = PBXGroup;
 			children = (
+				FF8121272C50689D00F21423 /* UserRole.swift */,
+				FF81212B2C506A1100F21423 /* UserRoleEnvrionment.swift */,
 				FF8120CE2C501E9F00F21423 /* WindmillWaterV1App.swift */,
 				FF8120D02C501E9F00F21423 /* ContentView.swift */,
+				FF8121142C5050B300F21423 /* ItemFormatter.swift */,
 				FF8120D22C501EA100F21423 /* Assets.xcassets */,
-				FF8120D72C501EA100F21423 /* Persistence.swift */,
 				FF8120D92C501EA100F21423 /* WindmillWaterV1.xcdatamodeld */,
 				FF8120D42C501EA100F21423 /* Preview Content */,
-				FF8120F22C5026E500F21423 /* RoutesView.swift */,
-				FF8120F42C50270600F21423 /* DeliveriesView.swift */,
-				FF8120F62C50412F00F21423 /* MainView.swift */,
-				FF8120F82C50415700F21423 /* AddCustomerView.swift */,
-				FF8120FA2C50418200F21423 /* DeliveryDetialView.swift */,
-				FF8120FC2C50426A00F21423 /* AddDeliveryView.swift */,
-				FF8120FE2C50429D00F21423 /* ManageProductsView.swift */,
-				FF8121002C50468B00F21423 /* RouteDetailView.swift */,
-				FF8121022C5046FD00F21423 /* EditDeliveryView.swift */,
-				FF8121042C5048DD00F21423 /* EditProdcutView.swift */,
-				FF8121062C504B3900F21423 /* CustomersListView.swift */,
-				FF8121082C504B5F00F21423 /* EditCustomerView.swift */,
-				FF81210A2C504C1B00F21423 /* ExportData.swift */,
-				FF81210C2C504ED500F21423 /* RoutesListView.swift */,
-				FF81210E2C504EF200F21423 /* AddRouteView.swift */,
-				FF8121122C50509400F21423 /* Route.swift */,
-				FF8121102C504F0B00F21423 /* EditRouteView.swift */,
-				FF8121142C5050B300F21423 /* ItemFormatter.swift */,
-				FF8121162C5052C600F21423 /* MultipleSelectionRow.swift */,
+				FF81211F2C5061F500F21423 /* Components */,
+				FF81211C2C5061D000F21423 /* Views */,
+				FF8121202C50620100F21423 /* Utilities */,
+				FF81211D2C5061DD00F21423 /* Models */,
 			);
 			path = WindmillWaterV1;
 			sourceTree = "<group>";
@@ -131,6 +123,87 @@
 				FF8120D52C501EA100F21423 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		FF81211C2C5061D000F21423 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FF8121242C5063B100F21423 /* Products */,
+				FF8121232C50639C00F21423 /* Delivery */,
+				FF8121222C50639300F21423 /* Customer */,
+				FF8121212C50637700F21423 /* Routes */,
+				FF8120F62C50412F00F21423 /* MainView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FF81211D2C5061DD00F21423 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FF8121122C50509400F21423 /* Route.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FF81211F2C5061F500F21423 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				FF8121162C5052C600F21423 /* MultipleSelectionRow.swift */,
+				FF81211A2C505F3A00F21423 /* ProductSelectionRow.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		FF8121202C50620100F21423 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				FF81210A2C504C1B00F21423 /* ExportData.swift */,
+				FF8120D72C501EA100F21423 /* Persistence.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		FF8121212C50637700F21423 /* Routes */ = {
+			isa = PBXGroup;
+			children = (
+				FF81210E2C504EF200F21423 /* AddRouteView.swift */,
+				FF8121102C504F0B00F21423 /* EditRouteView.swift */,
+				FF81210C2C504ED500F21423 /* RoutesListView.swift */,
+				FF8121002C50468B00F21423 /* RouteDetailView.swift */,
+				FF8120F22C5026E500F21423 /* RoutesView.swift */,
+				FF8121252C5067B400F21423 /* RouteSummaryView.swift */,
+			);
+			path = Routes;
+			sourceTree = "<group>";
+		};
+		FF8121222C50639300F21423 /* Customer */ = {
+			isa = PBXGroup;
+			children = (
+				FF8120F82C50415700F21423 /* AddCustomerView.swift */,
+				FF8121062C504B3900F21423 /* CustomersListView.swift */,
+				FF8121082C504B5F00F21423 /* EditCustomerView.swift */,
+			);
+			path = Customer;
+			sourceTree = "<group>";
+		};
+		FF8121232C50639C00F21423 /* Delivery */ = {
+			isa = PBXGroup;
+			children = (
+				FF8120F42C50270600F21423 /* DeliveriesView.swift */,
+				FF8120FA2C50418200F21423 /* DeliveryDetialView.swift */,
+				FF8120FC2C50426A00F21423 /* AddDeliveryView.swift */,
+				FF8121022C5046FD00F21423 /* EditDeliveryView.swift */,
+			);
+			path = Delivery;
+			sourceTree = "<group>";
+		};
+		FF8121242C5063B100F21423 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FF8120FE2C50429D00F21423 /* ManageProductsView.swift */,
+				FF8121042C5048DD00F21423 /* EditProdcutView.swift */,
+			);
+			path = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,11 +276,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF8121282C50689D00F21423 /* UserRole.swift in Sources */,
 				FF8120F52C50270600F21423 /* DeliveriesView.swift in Sources */,
 				FF8121032C5046FD00F21423 /* EditDeliveryView.swift in Sources */,
 				FF8121052C5048DD00F21423 /* EditProdcutView.swift in Sources */,
 				FF8121012C50468B00F21423 /* RouteDetailView.swift in Sources */,
 				FF8121092C504B5F00F21423 /* EditCustomerView.swift in Sources */,
+				FF81212C2C506A1100F21423 /* UserRoleEnvrionment.swift in Sources */,
 				FF81210F2C504EF200F21423 /* AddRouteView.swift in Sources */,
 				FF8120FF2C50429D00F21423 /* ManageProductsView.swift in Sources */,
 				FF8120FB2C50418200F21423 /* DeliveryDetialView.swift in Sources */,
@@ -224,6 +299,7 @@
 				FF8120D12C501E9F00F21423 /* ContentView.swift in Sources */,
 				FF81211B2C505F3A00F21423 /* ProductSelectionRow.swift in Sources */,
 				FF8120DB2C501EA100F21423 /* WindmillWaterV1.xcdatamodeld in Sources */,
+				FF8121262C5067B400F21423 /* RouteSummaryView.swift in Sources */,
 				FF8120F92C50415700F21423 /* AddCustomerView.swift in Sources */,
 				FF8121072C504B3900F21423 /* CustomersListView.swift in Sources */,
 				FF8120CF2C501E9F00F21423 /* WindmillWaterV1App.swift in Sources */,

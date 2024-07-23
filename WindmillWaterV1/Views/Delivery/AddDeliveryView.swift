@@ -16,49 +16,46 @@ struct AddDeliveryView: View {
     @State private var date: Date = Date()
 
     var body: some View {
-        NavigationView {
-            Form {
-                Section(header: Text("Delivery Details")) {
-                    DatePicker("Date", selection: $date, displayedComponents: .date)
-                    TextField("Quantity Delivered", text: $quantityDelivered)
-                        .keyboardType(.numberPad)
-                    TextField("Quantity Returned", text: $quantityReturned)
-                        .keyboardType(.numberPad)
-                    TextField("Notes", text: $notes)
-                }
-
-                Section(header: Text("Products")) {
-                    List(products, id: \.self) { product in
-                        ProductSelectionRow(product: product, isSelected: selectedProducts.contains(product)) {
-                            if selectedProducts.contains(product) {
-                                selectedProducts.remove(product)
-                            } else {
-                                selectedProducts.insert(product)
-                            }
+        Form {
+            Section(header: Text("Delivery Details")) {
+                DatePicker("Date", selection: $date, displayedComponents: .date)
+                TextField("Quantity Delivered", text: $quantityDelivered)
+                    .keyboardType(.numberPad)
+                TextField("Quantity Returned", text: $quantityReturned)
+                    .keyboardType(.numberPad)
+                TextField("Notes", text: $notes)
+            }
+            
+            Section(header: Text("Products")) {
+                List(products, id: \.self) { product in
+                    ProductSelectionRow(product: product, isSelected: selectedProducts.contains(product)) {
+                        if selectedProducts.contains(product) {
+                            selectedProducts.remove(product)
+                        } else {
+                            selectedProducts.insert(product)
                         }
                     }
                 }
             }
-            .navigationBarTitle("Add Delivery")
-            .navigationBarItems(trailing: Button("Save") {
-                addDelivery()
-            })
         }
+        .navigationBarTitle("Add Delivery")
+        .navigationBarItems(trailing: Button("Save") {
+            addDelivery()
+        })
     }
 
     private func addDelivery() {
         let newDelivery = Delivery(context: viewContext)
-        newDelivery.date = date
+        newDelivery.products = NSSet(set: selectedProducts)
         newDelivery.quantityDelivered = Int16(quantityDelivered) ?? 0
         newDelivery.quantityReturned = Int16(quantityReturned) ?? 0
         newDelivery.notes = notes
-        newDelivery.products = NSSet(set: selectedProducts)
+        newDelivery.date = date
 
         do {
             try viewContext.save()
             presentationMode.wrappedValue.dismiss()
         } catch {
-            // Handle the error appropriately
             print("Error saving delivery: \(error)")
         }
     }

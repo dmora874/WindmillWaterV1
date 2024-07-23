@@ -1,17 +1,6 @@
 import SwiftUI
-import CoreData
 
-struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Customer.name, ascending: true)],
-        animation: .default)
-    private var customers: FetchedResults<Customer>
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Route.date, ascending: true)],
-        animation: .default)
-    private var routes: FetchedResults<Route>
-    
+struct MainView: View {
     @State private var userRole: UserRole? = nil
 
     var body: some View {
@@ -35,58 +24,47 @@ struct ContentView: View {
                     List {
                         if userRole == .admin || userRole == .deliveryManager {
                             Section(header: Text("Customers")) {
-                                ForEach(customers) { customer in
-                                    VStack(alignment: .leading) {
-                                        Text("Name: \(customer.name ?? "Unknown")")
-                                        Text("Address: \(customer.address ?? "Unknown")")
-                                        Text("Phone: \(customer.phoneNumber ?? "Unknown")")
-                                        Text("Notes: \(customer.notes ?? "Unknown")")
-                                        Text("Pricing: \(customer.pricingInformation ?? "Unknown")")
-                                        Text("Payment: \(customer.paymentMethod ?? "Unknown")")
-                                    }
+                                NavigationLink(destination: CustomerListView()) {
+                                    Text("View Customers")
                                 }
                                 Button("Add Sample Customer") {
                                     addSampleCustomer()
-                                }
-                                NavigationLink(destination: CustomerListView()) {
-                                    Text("View Customers")
                                 }
                             }
                         }
 
                         if userRole == .admin || userRole == .deliveryManager {
                             Section(header: Text("Routes")) {
-                                ForEach(routes) { route in
-                                    VStack(alignment: .leading) {
-                                        Text("Route Date: \(route.date ?? Date(), formatter: itemFormatter)")
-                                    }
+                                NavigationLink(destination: RoutesView()) {
+                                    Text("View Routes")
                                 }
                                 Button("Add Sample Route") {
                                     addSampleRoute()
-                                }
-                                NavigationLink(destination: RoutesView()) {
-                                    Text("Manage Routes")
                                 }
                             }
                         }
 
                         if userRole == .admin || userRole == .warehouseManager {
                             Section(header: Text("Deliveries")) {
+                                NavigationLink(destination: DeliveriesView()) {
+                                    Text("View Deliveries")
+                                }
                                 Button("Add Sample Delivery") {
                                     addSampleDelivery()
                                 }
-                                NavigationLink(destination: DeliveriesView()) {
-                                    Text("Manage Deliveries")
-                                }
                             }
                         }
-                        
+
                         if userRole == .admin {
                             Section(header: Text("Products")) {
                                 NavigationLink(destination: ManageProductsView()) {
                                     Text("View Products")
                                 }
                             }
+                        }
+
+                        Button(action: exportCustomers) {
+                            Text("Export Customers")
                         }
                     }
                     .listStyle(GroupedListStyle())
@@ -103,7 +81,8 @@ struct ContentView: View {
     }
 
     private func addSampleCustomer() {
-        let newCustomer = Customer(context: viewContext)
+        let context = PersistenceController.shared.container.viewContext
+        let newCustomer = Customer(context: context)
         newCustomer.name = "John Doe"
         newCustomer.address = "123 Main St"
         newCustomer.phoneNumber = "555-555-5555"
@@ -111,7 +90,7 @@ struct ContentView: View {
         newCustomer.pricingInformation = "$10 per bottle"
         newCustomer.paymentMethod = "Credit Card"
         do {
-            try viewContext.save()
+            try context.save()
         } catch {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
@@ -119,10 +98,11 @@ struct ContentView: View {
     }
 
     private func addSampleRoute() {
-        let newRoute = Route(context: viewContext)
+        let context = PersistenceController.shared.container.viewContext
+        let newRoute = Route(context: context)
         newRoute.date = Date()
         do {
-            try viewContext.save()
+            try context.save()
         } catch {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
@@ -130,21 +110,36 @@ struct ContentView: View {
     }
 
     private func addSampleDelivery() {
-        let newDelivery = Delivery(context: viewContext)
+        let context = PersistenceController.shared.container.viewContext
+        let newDelivery = Delivery(context: context)
         newDelivery.date = Date()
-        newDelivery.customer = customers.first
-        newDelivery.route = routes.first
+        newDelivery.customer = try? context.fetch(Customer.fetchRequest()).first
+        newDelivery.route = try? context.fetch(Route.fetchRequest()).first
         do {
-            try viewContext.save()
+            try context.save()
         } catch {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
+
+    private func exportCustomers() {
+        let context = PersistenceController.shared.container.viewContext
+        let csvData = ExportData.exportCustomers(context: context)
+        let fileName = "Customers.csv"
+        let path = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
+
+        do {
+            try csvData.write(to: path, atomically: true, encoding: String.Encoding.utf8)
+            print("Exported CSV to: \(path)")
+        } catch {
+            print("Failed to write CSV: \(error)")
+        }
+    }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        MainView()
     }
 }
