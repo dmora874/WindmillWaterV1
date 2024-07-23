@@ -1,10 +1,3 @@
-//
-//  WindmillWaterV1App.swift
-//  WindmillWaterV1
-//
-//  Created by Derek Mora on 7/23/24.
-//
-
 import SwiftUI
 
 @main
@@ -13,7 +6,7 @@ struct WindmillWaterV1App: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

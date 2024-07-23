@@ -13,6 +13,26 @@
 		FF8120D62C501EA100F21423 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF8120D52C501EA100F21423 /* Preview Assets.xcassets */; };
 		FF8120D82C501EA100F21423 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8120D72C501EA100F21423 /* Persistence.swift */; };
 		FF8120DB2C501EA100F21423 /* WindmillWaterV1.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FF8120D92C501EA100F21423 /* WindmillWaterV1.xcdatamodeld */; };
+		FF8120F32C5026E500F21423 /* RoutesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8120F22C5026E500F21423 /* RoutesView.swift */; };
+		FF8120F52C50270600F21423 /* DeliveriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8120F42C50270600F21423 /* DeliveriesView.swift */; };
+		FF8120F72C50412F00F21423 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8120F62C50412F00F21423 /* MainView.swift */; };
+		FF8120F92C50415700F21423 /* AddCustomerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8120F82C50415700F21423 /* AddCustomerView.swift */; };
+		FF8120FB2C50418200F21423 /* DeliveryDetialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8120FA2C50418200F21423 /* DeliveryDetialView.swift */; };
+		FF8120FD2C50426A00F21423 /* AddDeliveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8120FC2C50426A00F21423 /* AddDeliveryView.swift */; };
+		FF8120FF2C50429D00F21423 /* ManageProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8120FE2C50429D00F21423 /* ManageProductsView.swift */; };
+		FF8121012C50468B00F21423 /* RouteDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8121002C50468B00F21423 /* RouteDetailView.swift */; };
+		FF8121032C5046FD00F21423 /* EditDeliveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8121022C5046FD00F21423 /* EditDeliveryView.swift */; };
+		FF8121052C5048DD00F21423 /* EditProdcutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8121042C5048DD00F21423 /* EditProdcutView.swift */; };
+		FF8121072C504B3900F21423 /* CustomersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8121062C504B3900F21423 /* CustomersListView.swift */; };
+		FF8121092C504B5F00F21423 /* EditCustomerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8121082C504B5F00F21423 /* EditCustomerView.swift */; };
+		FF81210B2C504C1B00F21423 /* ExportData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF81210A2C504C1B00F21423 /* ExportData.swift */; };
+		FF81210D2C504ED500F21423 /* RoutesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF81210C2C504ED500F21423 /* RoutesListView.swift */; };
+		FF81210F2C504EF200F21423 /* AddRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF81210E2C504EF200F21423 /* AddRouteView.swift */; };
+		FF8121112C504F0B00F21423 /* EditRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8121102C504F0B00F21423 /* EditRouteView.swift */; };
+		FF8121132C50509500F21423 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8121122C50509400F21423 /* Route.swift */; };
+		FF8121152C5050B300F21423 /* ItemFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8121142C5050B300F21423 /* ItemFormatter.swift */; };
+		FF8121172C5052C600F21423 /* MultipleSelectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8121162C5052C600F21423 /* MultipleSelectionRow.swift */; };
+		FF81211B2C505F3A00F21423 /* ProductSelectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF81211A2C505F3A00F21423 /* ProductSelectionRow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +43,26 @@
 		FF8120D52C501EA100F21423 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FF8120D72C501EA100F21423 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		FF8120DA2C501EA100F21423 /* WindmillWaterV1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WindmillWaterV1.xcdatamodel; sourceTree = "<group>"; };
+		FF8120F22C5026E500F21423 /* RoutesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesView.swift; sourceTree = "<group>"; };
+		FF8120F42C50270600F21423 /* DeliveriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveriesView.swift; sourceTree = "<group>"; };
+		FF8120F62C50412F00F21423 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		FF8120F82C50415700F21423 /* AddCustomerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCustomerView.swift; sourceTree = "<group>"; };
+		FF8120FA2C50418200F21423 /* DeliveryDetialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryDetialView.swift; sourceTree = "<group>"; };
+		FF8120FC2C50426A00F21423 /* AddDeliveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDeliveryView.swift; sourceTree = "<group>"; };
+		FF8120FE2C50429D00F21423 /* ManageProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageProductsView.swift; sourceTree = "<group>"; };
+		FF8121002C50468B00F21423 /* RouteDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteDetailView.swift; sourceTree = "<group>"; };
+		FF8121022C5046FD00F21423 /* EditDeliveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDeliveryView.swift; sourceTree = "<group>"; };
+		FF8121042C5048DD00F21423 /* EditProdcutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProdcutView.swift; sourceTree = "<group>"; };
+		FF8121062C504B3900F21423 /* CustomersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomersListView.swift; sourceTree = "<group>"; };
+		FF8121082C504B5F00F21423 /* EditCustomerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCustomerView.swift; sourceTree = "<group>"; };
+		FF81210A2C504C1B00F21423 /* ExportData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportData.swift; sourceTree = "<group>"; };
+		FF81210C2C504ED500F21423 /* RoutesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesListView.swift; sourceTree = "<group>"; };
+		FF81210E2C504EF200F21423 /* AddRouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRouteView.swift; sourceTree = "<group>"; };
+		FF8121102C504F0B00F21423 /* EditRouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRouteView.swift; sourceTree = "<group>"; };
+		FF8121122C50509400F21423 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		FF8121142C5050B300F21423 /* ItemFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemFormatter.swift; sourceTree = "<group>"; };
+		FF8121162C5052C600F21423 /* MultipleSelectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionRow.swift; sourceTree = "<group>"; };
+		FF81211A2C505F3A00F21423 /* ProductSelectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSelectionRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +79,7 @@
 		FF8120C22C501E9F00F21423 = {
 			isa = PBXGroup;
 			children = (
+				FF81211A2C505F3A00F21423 /* ProductSelectionRow.swift */,
 				FF8120CD2C501E9F00F21423 /* WindmillWaterV1 */,
 				FF8120CC2C501E9F00F21423 /* Products */,
 			);
@@ -61,6 +102,25 @@
 				FF8120D72C501EA100F21423 /* Persistence.swift */,
 				FF8120D92C501EA100F21423 /* WindmillWaterV1.xcdatamodeld */,
 				FF8120D42C501EA100F21423 /* Preview Content */,
+				FF8120F22C5026E500F21423 /* RoutesView.swift */,
+				FF8120F42C50270600F21423 /* DeliveriesView.swift */,
+				FF8120F62C50412F00F21423 /* MainView.swift */,
+				FF8120F82C50415700F21423 /* AddCustomerView.swift */,
+				FF8120FA2C50418200F21423 /* DeliveryDetialView.swift */,
+				FF8120FC2C50426A00F21423 /* AddDeliveryView.swift */,
+				FF8120FE2C50429D00F21423 /* ManageProductsView.swift */,
+				FF8121002C50468B00F21423 /* RouteDetailView.swift */,
+				FF8121022C5046FD00F21423 /* EditDeliveryView.swift */,
+				FF8121042C5048DD00F21423 /* EditProdcutView.swift */,
+				FF8121062C504B3900F21423 /* CustomersListView.swift */,
+				FF8121082C504B5F00F21423 /* EditCustomerView.swift */,
+				FF81210A2C504C1B00F21423 /* ExportData.swift */,
+				FF81210C2C504ED500F21423 /* RoutesListView.swift */,
+				FF81210E2C504EF200F21423 /* AddRouteView.swift */,
+				FF8121122C50509400F21423 /* Route.swift */,
+				FF8121102C504F0B00F21423 /* EditRouteView.swift */,
+				FF8121142C5050B300F21423 /* ItemFormatter.swift */,
+				FF8121162C5052C600F21423 /* MultipleSelectionRow.swift */,
 			);
 			path = WindmillWaterV1;
 			sourceTree = "<group>";
@@ -143,9 +203,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF8120F52C50270600F21423 /* DeliveriesView.swift in Sources */,
+				FF8121032C5046FD00F21423 /* EditDeliveryView.swift in Sources */,
+				FF8121052C5048DD00F21423 /* EditProdcutView.swift in Sources */,
+				FF8121012C50468B00F21423 /* RouteDetailView.swift in Sources */,
+				FF8121092C504B5F00F21423 /* EditCustomerView.swift in Sources */,
+				FF81210F2C504EF200F21423 /* AddRouteView.swift in Sources */,
+				FF8120FF2C50429D00F21423 /* ManageProductsView.swift in Sources */,
+				FF8120FB2C50418200F21423 /* DeliveryDetialView.swift in Sources */,
+				FF8121172C5052C600F21423 /* MultipleSelectionRow.swift in Sources */,
+				FF81210B2C504C1B00F21423 /* ExportData.swift in Sources */,
+				FF8120FD2C50426A00F21423 /* AddDeliveryView.swift in Sources */,
+				FF8120F72C50412F00F21423 /* MainView.swift in Sources */,
 				FF8120D82C501EA100F21423 /* Persistence.swift in Sources */,
+				FF8121132C50509500F21423 /* Route.swift in Sources */,
+				FF8121152C5050B300F21423 /* ItemFormatter.swift in Sources */,
+				FF8120F32C5026E500F21423 /* RoutesView.swift in Sources */,
+				FF81210D2C504ED500F21423 /* RoutesListView.swift in Sources */,
+				FF8121112C504F0B00F21423 /* EditRouteView.swift in Sources */,
 				FF8120D12C501E9F00F21423 /* ContentView.swift in Sources */,
+				FF81211B2C505F3A00F21423 /* ProductSelectionRow.swift in Sources */,
 				FF8120DB2C501EA100F21423 /* WindmillWaterV1.xcdatamodeld in Sources */,
+				FF8120F92C50415700F21423 /* AddCustomerView.swift in Sources */,
+				FF8121072C504B3900F21423 /* CustomersListView.swift in Sources */,
 				FF8120CF2C501E9F00F21423 /* WindmillWaterV1App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,10 +1,3 @@
-//
-//  Persistence.swift
-//  WindmillWaterV1
-//
-//  Created by Derek Mora on 7/23/24.
-//
-
 import CoreData
 
 struct PersistenceController {
@@ -13,18 +6,41 @@ struct PersistenceController {
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
-        for _ in 0..<10 {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-        }
+        
+        // Create sample data here for preview
+        let sampleCustomer = Customer(context: viewContext)
+        sampleCustomer.name = "Sample Customer"
+        sampleCustomer.address = "123 Sample Street"
+        sampleCustomer.phoneNumber = "123-456-7890"
+        sampleCustomer.paymentMethod = "Credit Card"
+        sampleCustomer.notes = "Notes about the customer."
+        sampleCustomer.pricingInformation = "Pricing details."
+        
+        let sampleRoute = Route(context: viewContext)
+        sampleRoute.identifier = "Sample Route"
+        sampleRoute.date = Date()
+        sampleRoute.addToCustomers(sampleCustomer)
+        
+        let sampleProduct = Product(context: viewContext)
+        sampleProduct.name = "Sample Product"
+        sampleProduct.price = "10.00"
+        
+        let sampleDelivery = Delivery(context: viewContext)
+        sampleDelivery.date = Date()
+        sampleDelivery.quantityDelivered = 5
+        sampleDelivery.quantityReturned = 1
+        sampleDelivery.notes = "Delivery notes."
+        sampleDelivery.customer = sampleCustomer
+        sampleDelivery.route = sampleRoute
+        sampleDelivery.addToProducts(sampleProduct)
+        
         do {
             try viewContext.save()
         } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
+        
         return result
     }()
 
@@ -33,24 +49,12 @@ struct PersistenceController {
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "WindmillWaterV1")
         if inMemory {
-            container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+            container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
         }
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        container.loadPersistentStores { (description, error) in
             if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-
-                /*
-                 Typical reasons for an error here include:
-                 * The parent directory does not exist, cannot be created, or disallows writing.
-                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                 * The device is out of space.
-                 * The store could not be migrated to the current model version.
-                 Check the error message to determine what the actual problem was.
-                 */
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
-        })
-        container.viewContext.automaticallyMergesChangesFromParent = true
+        }
     }
 }
