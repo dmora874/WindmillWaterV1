@@ -3,29 +3,31 @@ import SwiftUI
 struct AddCustomerView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
-    @State private var name = ""
-    @State private var address = ""
-    @State private var phoneNumber = ""
-    @State private var notes = ""
-    @State private var paymentMethod = ""
-    @State private var pricingInformation = ""
+    @State private var name: String = ""
+    @State private var address: String = ""
+    @State private var phoneNumber: String = ""
+    @State private var notes: String = ""
+    @State private var pricingInformation: String = ""
+    @State private var paymentMethod: String = ""
 
     var body: some View {
-        Form {
-            Section(header: Text("Customer Details")) {
-                TextField("Name", text: $name)
-                TextField("Address", text: $address)
-                TextField("Phone Number", text: $phoneNumber)
-                TextField("Notes", text: $notes)
-                TextField("Payment Method", text: $paymentMethod)
-                TextField("Pricing Information", text: $pricingInformation)
+        NavigationView {
+            Form {
+                Section(header: Text("Customer Details")) {
+                    TextField("Name", text: $name)
+                    TextField("Address", text: $address)
+                    TextField("Phone Number", text: $phoneNumber)
+                    TextField("Notes", text: $notes)
+                    TextField("Pricing Information", text: $pricingInformation)
+                    TextField("Payment Method", text: $paymentMethod)
+                }
+                Button("Save") {
+                    addCustomer()
+                }
+                .buttonStyle(PrimaryButtonStyle())
             }
-
-            Button("Save Customer") {
-                addCustomer()
-            }
+            .navigationBarTitle("Add Customer")
         }
-        .navigationTitle("Add Customer")
     }
 
     private func addCustomer() {
@@ -34,8 +36,8 @@ struct AddCustomerView: View {
         newCustomer.address = address
         newCustomer.phoneNumber = phoneNumber
         newCustomer.notes = notes
-        newCustomer.paymentMethod = paymentMethod
         newCustomer.pricingInformation = pricingInformation
+        newCustomer.paymentMethod = paymentMethod
 
         do {
             try viewContext.save()
@@ -49,6 +51,6 @@ struct AddCustomerView: View {
 
 struct AddCustomerView_Previews: PreviewProvider {
     static var previews: some View {
-        AddCustomerView()
+        AddCustomerView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

@@ -1,38 +1,46 @@
 import SwiftUI
+import CoreData
 
-struct CustomerListView: View {
+struct CustomersListView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Customer.name, ascending: true)],
         animation: .default)
     private var customers: FetchedResults<Customer>
-
+    
+    @State private var showAddCustomerView = false
+    
     var body: some View {
         NavigationView {
             List {
                 ForEach(customers) { customer in
                     NavigationLink(destination: EditCustomerView(customer: customer)) {
                         VStack(alignment: .leading) {
-                            Text(customer.name ?? "Unknown Name")
-                                .font(.headline)
-                            Text(customer.address ?? "Unknown Address")
-                                .font(.subheadline)
+                            Text("Name: \(customer.name ?? "Unknown")")
+                            Text("Address: \(customer.address ?? "Unknown")")
+                            Text("Phone: \(customer.phoneNumber ?? "Unknown")")
+                            Text("Notes: \(customer.notes ?? "None")")
+                            Text("Pricing: \(customer.pricingInformation ?? "Unknown")")
+                            Text("Payment: \(customer.paymentMethod ?? "Unknown")")
                         }
                     }
                 }
                 .onDelete(perform: deleteCustomers)
             }
-            .navigationTitle("Customers")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
                 }
-                ToolbarItem(placement: .navigationBarLeading) {
-                    NavigationLink(destination: AddCustomerView()) {
+                ToolbarItem {
+                    Button(action: { showAddCustomerView.toggle() }) {
                         Label("Add Customer", systemImage: "plus")
                     }
                 }
             }
+            .sheet(isPresented: $showAddCustomerView) {
+                AddCustomerView().environment(\.managedObjectContext, viewContext)
+            }
+            .navigationTitle("Customers")
         }
     }
 
@@ -49,9 +57,8 @@ struct CustomerListView: View {
     }
 }
 
-struct CustomerListView_Previews: PreviewProvider {
+struct CustomersListView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomerListView()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        CustomersListView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

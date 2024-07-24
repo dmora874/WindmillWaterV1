@@ -2,15 +2,15 @@ import SwiftUI
 
 struct EditCustomerView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var customer: Customer
+
     @State private var name: String
     @State private var address: String
     @State private var phoneNumber: String
     @State private var notes: String
-    @State private var paymentMethod: String
     @State private var pricingInformation: String
-    @State private var showAlert = false
-
-    var customer: Customer
+    @State private var paymentMethod: String
 
     init(customer: Customer) {
         self.customer = customer
@@ -18,42 +18,58 @@ struct EditCustomerView: View {
         _address = State(initialValue: customer.address ?? "")
         _phoneNumber = State(initialValue: customer.phoneNumber ?? "")
         _notes = State(initialValue: customer.notes ?? "")
-        _paymentMethod = State(initialValue: customer.paymentMethod ?? "")
         _pricingInformation = State(initialValue: customer.pricingInformation ?? "")
+        _paymentMethod = State(initialValue: customer.paymentMethod ?? "")
     }
 
     var body: some View {
         Form {
             Section(header: Text("Customer Details")) {
-                TextField("Name", text: $name)
-                TextField("Address", text: $address)
-                TextField("Phone Number", text: $phoneNumber)
-                TextField("Notes", text: $notes)
-                TextField("Payment Method", text: $paymentMethod)
-                TextField("Pricing Information", text: $pricingInformation)
+                VStack(alignment: .leading) {
+                    Text("Name")
+                    TextField("Name", text: $name)
+                }
+                VStack(alignment: .leading) {
+                    Text("Address")
+                    TextField("Address", text: $address)
+                }
+                VStack(alignment: .leading) {
+                    Text("Phone Number")
+                    TextField("Phone Number", text: $phoneNumber)
+                }
+                VStack(alignment: .leading) {
+                    Text("Notes")
+                    TextField("Notes", text: $notes)
+                }
+                VStack(alignment: .leading) {
+                    Text("Pricing Information")
+                    TextField("Pricing Information", text: $pricingInformation)
+                }
+                VStack(alignment: .leading) {
+                    Text("Payment Method")
+                    TextField("Payment Method", text: $paymentMethod)
+                }
             }
 
-            Button("Save Changes") {
-                saveChanges()
+            Button("Save") {
+                saveCustomer()
+                presentationMode.wrappedValue.dismiss()
             }
+            .buttonStyle(PrimaryButtonStyle())
         }
-        .navigationTitle("Edit Customer")
-        .alert(isPresented: $showAlert) {
-            Alert(title: Text("Success"), message: Text("Customer details saved successfully"), dismissButton: .default(Text("OK")))
-        }
+        .navigationBarTitle("Edit Customer")
     }
 
-    private func saveChanges() {
+    private func saveCustomer() {
         customer.name = name
         customer.address = address
         customer.phoneNumber = phoneNumber
         customer.notes = notes
-        customer.paymentMethod = paymentMethod
         customer.pricingInformation = pricingInformation
+        customer.paymentMethod = paymentMethod
 
         do {
             try viewContext.save()
-            showAlert = true
         } catch {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
@@ -63,7 +79,6 @@ struct EditCustomerView: View {
 
 struct EditCustomerView_Previews: PreviewProvider {
     static var previews: some View {
-        EditCustomerView(customer: Customer())
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        EditCustomerView(customer: Customer()).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

@@ -19,16 +19,30 @@ struct RouteDetailView: View {
 
                 Section(header: Text("Customers")) {
                     ForEach(route.customersArray) { customer in
-                        NavigationLink(destination: CustomerDetailView(customer: customer, isCompleted: route.isCompleted)) {
-                            VStack(alignment: .leading) {
-                                Text(customer.name ?? "")
-                                    .font(.headline)
-                                Text(customer.address ?? "")
-                                    .font(.subheadline)
-                                Text(customer.phoneNumber ?? "")
-                                    .font(.subheadline)
+                        VStack(alignment: .leading) {
+                            Text("Name: \(customer.name ?? "Unknown")")
+                            Text("Address: \(customer.address ?? "Unknown")")
+                            Text("Phone: \(customer.phoneNumber ?? "Unknown")")
+                            if userRole == .admin || !route.isCompleted {
+                                NavigationLink(destination: CustomerDetailView(customer: customer)) {
+                                    Text("Details")
+                                }
+                            } else {
+                                Text("5G Reg: \(customer.quantityDelivered5GReg)")
+                                Text("3G Reg: \(customer.quantityDelivered3GReg)")
+                                Text("Hg Reg: \(customer.quantityDeliveredHgReg)")
+                                Text("5G Taos: \(customer.quantityDelivered5GTaos)")
+                                Text("3G Taos: \(customer.quantityDelivered3GTaos)")
+                                Text("Hg Taos: \(customer.quantityDeliveredHgTaos)")
+                                Text("5G Dist: \(customer.quantityDelivered5GDist)")
+                                Text("3G Dist: \(customer.quantityDelivered3GDist)")
+                                Text("Hg Dist: \(customer.quantityDeliveredHgDist)")
+                                Text("5G Returned: \(customer.quantityReturned5G)")
+                                Text("3G Returned: \(customer.quantityReturned3G)")
+                                Text("Hg Returned: \(customer.quantityReturnedHg)")
                             }
                         }
+                        .padding()
                     }
                 }
             }
@@ -41,7 +55,7 @@ struct RouteDetailView: View {
                         }
                         .buttonStyle(PrimaryButtonStyle())
                     }
-                    
+
                     Button("Delete Route") {
                         deleteRoute()
                     }

@@ -24,7 +24,7 @@ struct MainView: View {
                     List {
                         if userRole == .admin || userRole == .deliveryManager {
                             Section(header: Text("Customers")) {
-                                NavigationLink(destination: CustomerListView()) {
+                                NavigationLink(destination: CustomersListView()) {
                                     Text("View Customers")
                                 }
                                 Button("Add Sample Customer") {
