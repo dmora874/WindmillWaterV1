@@ -4,6 +4,7 @@ struct CustomerDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @ObservedObject var customer: Customer
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.userRole) var userRole
     var isCompleted: Bool
 
     @State private var quantityDelivered5GReg: Int16
@@ -38,25 +39,31 @@ struct CustomerDetailView: View {
 
     var body: some View {
         Form {
+            Section(header: Text("Customer Details")) {
+                Text("Name: \(customer.name ?? "")")
+                Text("Address: \(customer.address ?? "")")
+                Text("Phone: \(customer.phoneNumber ?? "")")
+            }
+            
             Section(header: Text("Delivery Quantities")) {
-                StepperWithLabel(label: "5G Reg", value: $quantityDelivered5GReg, isEditable: !isCompleted)
-                StepperWithLabel(label: "3G Reg", value: $quantityDelivered3GReg, isEditable: !isCompleted)
-                StepperWithLabel(label: "Hg Reg", value: $quantityDeliveredHgReg, isEditable: !isCompleted)
-                StepperWithLabel(label: "5G Taos", value: $quantityDelivered5GTaos, isEditable: !isCompleted)
-                StepperWithLabel(label: "3G Taos", value: $quantityDelivered3GTaos, isEditable: !isCompleted)
-                StepperWithLabel(label: "Hg Taos", value: $quantityDeliveredHgTaos, isEditable: !isCompleted)
-                StepperWithLabel(label: "5G Dist", value: $quantityDelivered5GDist, isEditable: !isCompleted)
-                StepperWithLabel(label: "3G Dist", value: $quantityDelivered3GDist, isEditable: !isCompleted)
-                StepperWithLabel(label: "Hg Dist", value: $quantityDeliveredHgDist, isEditable: !isCompleted)
+                StepperWithLabel(label: "5G Reg", value: $quantityDelivered5GReg, isEditable: !(isCompleted && userRole != .admin))
+                StepperWithLabel(label: "3G Reg", value: $quantityDelivered3GReg, isEditable: !(isCompleted && userRole != .admin))
+                StepperWithLabel(label: "Hg Reg", value: $quantityDeliveredHgReg, isEditable: !(isCompleted && userRole != .admin))
+                StepperWithLabel(label: "5G Taos", value: $quantityDelivered5GTaos, isEditable: !(isCompleted && userRole != .admin))
+                StepperWithLabel(label: "3G Taos", value: $quantityDelivered3GTaos, isEditable: !(isCompleted && userRole != .admin))
+                StepperWithLabel(label: "Hg Taos", value: $quantityDeliveredHgTaos, isEditable: !(isCompleted && userRole != .admin))
+                StepperWithLabel(label: "5G Dist", value: $quantityDelivered5GDist, isEditable: !(isCompleted && userRole != .admin))
+                StepperWithLabel(label: "3G Dist", value: $quantityDelivered3GDist, isEditable: !(isCompleted && userRole != .admin))
+                StepperWithLabel(label: "Hg Dist", value: $quantityDeliveredHgDist, isEditable: !(isCompleted && userRole != .admin))
             }
 
             Section(header: Text("Returned Quantities")) {
-                StepperWithLabel(label: "5G", value: $quantityReturned5G, isEditable: !isCompleted)
-                StepperWithLabel(label: "3G", value: $quantityReturned3G, isEditable: !isCompleted)
-                StepperWithLabel(label: "Hg", value: $quantityReturnedHg, isEditable: !isCompleted)
+                StepperWithLabel(label: "5G", value: $quantityReturned5G, isEditable: !(isCompleted && userRole != .admin))
+                StepperWithLabel(label: "3G", value: $quantityReturned3G, isEditable: !(isCompleted && userRole != .admin))
+                StepperWithLabel(label: "Hg", value: $quantityReturnedHg, isEditable: !(isCompleted && userRole != .admin))
             }
 
-            if !isCompleted {
+            if !(isCompleted && userRole != .admin) {
                 Button("Save") {
                     saveQuantities()
                     presentationMode.wrappedValue.dismiss()

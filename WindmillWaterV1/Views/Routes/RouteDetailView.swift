@@ -20,7 +20,14 @@ struct RouteDetailView: View {
                 Section(header: Text("Customers")) {
                     ForEach(route.customersArray) { customer in
                         NavigationLink(destination: CustomerDetailView(customer: customer, isCompleted: route.isCompleted)) {
-                            Text(customer.name ?? "")
+                            VStack(alignment: .leading) {
+                                Text(customer.name ?? "")
+                                    .font(.headline)
+                                Text(customer.address ?? "")
+                                    .font(.subheadline)
+                                Text(customer.phoneNumber ?? "")
+                                    .font(.subheadline)
+                            }
                         }
                     }
                 }
