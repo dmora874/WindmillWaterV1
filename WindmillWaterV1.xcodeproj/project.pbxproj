@@ -39,6 +39,8 @@
 		FF8121302C507CF900F21423 /* ManageDeliveriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF81212F2C507CF900F21423 /* ManageDeliveriesView.swift */; };
 		FF81213C2C50991B00F21423 /* CustomerAccordion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF81213B2C50991B00F21423 /* CustomerAccordion.swift */; };
 		FF81213E2C50A0BE00F21423 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF81213D2C50A0BE00F21423 /* ButtonStyles.swift */; };
+		FF8121422C51864000F21423 /* CustomerDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8121412C51864000F21423 /* CustomerDetailView.swift */; };
+		FF8121442C51891800F21423 /* RoutesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8121432C51891800F21423 /* RoutesViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +77,8 @@
 		FF81212F2C507CF900F21423 /* ManageDeliveriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageDeliveriesView.swift; sourceTree = "<group>"; };
 		FF81213B2C50991B00F21423 /* CustomerAccordion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerAccordion.swift; sourceTree = "<group>"; };
 		FF81213D2C50A0BE00F21423 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
+		FF8121412C51864000F21423 /* CustomerDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailView.swift; sourceTree = "<group>"; };
+		FF8121432C51891800F21423 /* RoutesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				FF8121122C50509400F21423 /* Route.swift */,
+				FF8121432C51891800F21423 /* RoutesViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -202,6 +207,7 @@
 				FF8121022C5046FD00F21423 /* EditDeliveryView.swift */,
 				FF81212F2C507CF900F21423 /* ManageDeliveriesView.swift */,
 				FF81213B2C50991B00F21423 /* CustomerAccordion.swift */,
+				FF8121412C51864000F21423 /* CustomerDetailView.swift */,
 			);
 			path = Delivery;
 			sourceTree = "<group>";
@@ -301,6 +307,7 @@
 				FF81213E2C50A0BE00F21423 /* ButtonStyles.swift in Sources */,
 				FF81210B2C504C1B00F21423 /* ExportData.swift in Sources */,
 				FF8120FD2C50426A00F21423 /* AddDeliveryView.swift in Sources */,
+				FF8121422C51864000F21423 /* CustomerDetailView.swift in Sources */,
 				FF8120F72C50412F00F21423 /* MainView.swift in Sources */,
 				FF8120D82C501EA100F21423 /* Persistence.swift in Sources */,
 				FF8121132C50509500F21423 /* Route.swift in Sources */,
@@ -314,6 +321,7 @@
 				FF8121262C5067B400F21423 /* RouteSummaryView.swift in Sources */,
 				FF8120F92C50415700F21423 /* AddCustomerView.swift in Sources */,
 				FF8121072C504B3900F21423 /* CustomersListView.swift in Sources */,
+				FF8121442C51891800F21423 /* RoutesViewModel.swift in Sources */,
 				FF8120CF2C501E9F00F21423 /* WindmillWaterV1App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

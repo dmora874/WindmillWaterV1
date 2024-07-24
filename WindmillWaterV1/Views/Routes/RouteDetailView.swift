@@ -17,10 +17,10 @@ struct RouteDetailView: View {
                         .foregroundColor(route.isCompleted ? .green : (route.isStarted ? .blue : .red))
                 }
 
-                if userRole == .deliveryManager {
-                    Section(header: Text("Customers")) {
-                        ForEach(route.customersArray) { customer in
-                            CustomerAccordion(customer: customer)
+                Section(header: Text("Customers")) {
+                    ForEach(route.customersArray) { customer in
+                        NavigationLink(destination: CustomerDetailView(customer: customer, isCompleted: route.isCompleted)) {
+                            Text(customer.name ?? "")
                         }
                     }
                 }
