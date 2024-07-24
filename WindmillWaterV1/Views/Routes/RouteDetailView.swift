@@ -2,42 +2,79 @@ import SwiftUI
 
 struct RouteDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.userRole) var userRole
     @ObservedObject var route: Route
+    @State private var showEditRoute = false
+    @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         VStack {
-            List {
-                ForEach(route.deliveriesArray, id: \.self) { delivery in
-                    NavigationLink(destination: EditDeliveryView(delivery: delivery)) {
-                        Text("\(delivery.date ?? Date(), formatter: itemFormatter)")
+            Form {
+                Section(header: Text("Route Details")) {
+                    Text("Identifier: \(route.identifier ?? "")")
+                    Text("Date: \(route.date ?? Date(), formatter: itemFormatter)")
+                    Text("Status: \(route.isCompleted ? "Completed" : (route.isStarted ? "In Progress" : "Not Started"))")
+                        .foregroundColor(route.isCompleted ? .green : (route.isStarted ? .blue : .red))
+                }
+
+                if userRole == .deliveryManager {
+                    Section(header: Text("Customers")) {
+                        ForEach(route.customersArray) { customer in
+                            CustomerAccordion(customer: customer)
+                        }
                     }
                 }
-                .onDelete(perform: deleteDeliveries)
             }
-            .navigationBarTitle(Text(route.identifier ?? "Unknown Route"), displayMode: .inline)
-            .navigationBarItems(trailing: EditButton())
-        }
-    }
-    
-    private func deleteDeliveries(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { route.deliveriesArray[$0] }.forEach(viewContext.delete)
-            do {
-                try viewContext.save()
-            } catch {
-                // Handle the error appropriately
-            }
-        }
-    }
-}
 
-struct RouteDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        let context = PersistenceController.preview.container.viewContext
-        let sampleRoute = Route(context: context)
-        sampleRoute.identifier = "Sample Route"
-        sampleRoute.date = Date()
-        
-        return RouteDetailView(route: sampleRoute).environment(\.managedObjectContext, context)
+            if userRole == .admin {
+                HStack {
+                    NavigationLink(destination: EditRouteView(route: route), isActive: $showEditRoute) {
+                        Button("Edit Route") {
+                            showEditRoute = true
+                        }
+                        .buttonStyle(PrimaryButtonStyle())
+                    }
+                    
+                    Button("Delete Route") {
+                        deleteRoute()
+                    }
+                    .buttonStyle(DestructiveButtonStyle())
+                }
+            }
+
+            if userRole == .deliveryManager {
+                HStack {
+                    if !route.isStarted {
+                        Button("Start Route") {
+                            route.isStarted = true
+                            saveContext()
+                        }
+                        .buttonStyle(PrimaryButtonStyle())
+                    } else if route.isStarted && !route.isCompleted {
+                        Button("Complete Route") {
+                            route.isCompleted = true
+                            saveContext()
+                        }
+                        .buttonStyle(PrimaryButtonStyle())
+                    }
+                }
+            }
+        }
+        .navigationBarTitle("Route Details")
+    }
+
+    private func saveContext() {
+        do {
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+    }
+
+    private func deleteRoute() {
+        viewContext.delete(route)
+        saveContext()
+        presentationMode.wrappedValue.dismiss()
     }
 }

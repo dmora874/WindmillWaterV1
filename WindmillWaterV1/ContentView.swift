@@ -11,51 +11,26 @@ struct ContentView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Route.date, ascending: true)],
         animation: .default)
     private var routes: FetchedResults<Route>
-
+    
     @State private var userRole: UserRole? = nil
 
     var body: some View {
         NavigationView {
             VStack {
                 if userRole == nil {
-                    VStack(spacing: 20) {
-                        Button(action: {
+                    VStack {
+                        Button("Admin Login") {
                             userRole = .admin
-                        }) {
-                            Text("Admin Login")
-                                .font(.title2)
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
                         }
 
-                        Button(action: {
+                        Button("Delivery Manager Login") {
                             userRole = .deliveryManager
-                        }) {
-                            Text("Delivery Manager Login")
-                                .font(.title2)
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.green)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
                         }
 
-                        Button(action: {
+                        Button("Warehouse Manager Login") {
                             userRole = .warehouseManager
-                        }) {
-                            Text("Warehouse Manager Login")
-                                .font(.title2)
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.orange)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
                         }
                     }
-                    .padding()
                 } else {
                     List {
                         if userRole == .admin || userRole == .deliveryManager {
@@ -70,9 +45,10 @@ struct ContentView: View {
                                         Text("Payment: \(customer.paymentMethod ?? "Unknown")")
                                     }
                                 }
-                                Button(action: addSampleCustomer) {
-                                    Text("Add Sample Customer")
-                                        .foregroundColor(.blue)
+                                if userRole == .admin {
+                                    Button("Add Sample Customer") {
+                                        addSampleCustomer()
+                                    }
                                 }
                             }
                         }
@@ -80,58 +56,28 @@ struct ContentView: View {
                         if userRole == .admin || userRole == .deliveryManager {
                             Section(header: Text("Routes")) {
                                 ForEach(routes) { route in
-                                    VStack(alignment: .leading) {
-                                        Text("Route Date: \(route.date ?? Date(), formatter: itemFormatter)")
-                                        if userRole == .admin {
-                                            NavigationLink(destination: EditRouteView(route: route)) {
-                                                Text("Edit Route")
-                                            }
-                                            Button(action: {
-                                                deleteRoute(route)
-                                            }) {
-                                                Text("Delete Route")
-                                                    .foregroundColor(.red)
-                                            }
-                                        }
-                                        if userRole == .deliveryManager || userRole == .admin {
-                                            if !route.isStarted {
-                                                Button(action: {
-                                                    startRoute(route)
-                                                }) {
-                                                    Text("Start Route")
-                                                        .foregroundColor(.blue)
-                                                }
-                                            } else if route.isStarted && !route.isCompleted {
-                                                NavigationLink(destination: ManageDeliveriesView(route: route)) {
-                                                    Text("Manage Deliveries")
-                                                }
-                                                Button(action: {
-                                                    completeRoute(route)
-                                                }) {
-                                                    Text("Complete Route")
-                                                        .foregroundColor(.green)
-                                                }
-                                            }
+                                    NavigationLink(destination: RouteDetailView(route: route)) {
+                                        VStack(alignment: .leading) {
+                                            Text("Route Date: \(route.date ?? Date(), formatter: itemFormatter)")
+                                            Text("Status: \(route.isCompleted ? "Completed" : (route.isStarted ? "In Progress" : "Not Started"))")
+                                                .foregroundColor(route.isCompleted ? .green : (route.isStarted ? .blue : .red))
                                         }
                                     }
                                 }
                                 if userRole == .admin {
-                                    Button(action: addSampleRoute) {
-                                        Text("Add Sample Route")
-                                            .foregroundColor(.blue)
+                                    Button("Add Sample Route") {
+                                        addSampleRoute()
                                     }
-                                }
-                                NavigationLink(destination: RoutesView()) {
-                                    Text("Manage Routes")
                                 }
                             }
                         }
 
                         if userRole == .admin || userRole == .warehouseManager {
                             Section(header: Text("Deliveries")) {
-                                Button(action: addSampleDelivery) {
-                                    Text("Add Sample Delivery")
-                                        .foregroundColor(.blue)
+                                if userRole == .admin {
+                                    Button("Add Sample Delivery") {
+                                        addSampleDelivery()
+                                    }
                                 }
                                 NavigationLink(destination: DeliveriesView()) {
                                     Text("Manage Deliveries")
@@ -142,7 +88,7 @@ struct ContentView: View {
                 }
             }
             .padding()
-            .navigationTitle("Windmill Water Delivery")
+            .navigationTitle("Customers")
         }
         .environment(\.userRole, userRole)
     }
@@ -179,35 +125,6 @@ struct ContentView: View {
         newDelivery.date = Date()
         newDelivery.customer = customers.first
         newDelivery.route = routes.first
-        do {
-            try viewContext.save()
-        } catch {
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-        }
-    }
-
-    private func deleteRoute(_ route: Route) {
-        viewContext.delete(route)
-        do {
-            try viewContext.save()
-        } catch {
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-        }
-    }
-
-    private func startRoute(_ route: Route) {
-        route.isStarted = true
-        saveContext()
-    }
-
-    private func completeRoute(_ route: Route) {
-        route.isCompleted = true
-        saveContext()
-    }
-
-    private func saveContext() {
         do {
             try viewContext.save()
         } catch {

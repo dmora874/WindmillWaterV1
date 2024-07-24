@@ -20,9 +20,38 @@ extension Delivery {
     @NSManaged public var quantityDelivered: Int16
     @NSManaged public var quantityReturned: Int16
     @NSManaged public var notes: String?
+    @NSManaged public var quantityDelivered5GReg: Int16
+    @NSManaged public var quantityDelivered3GReg: Int16
+    @NSManaged public var quantityDeliveredHgReg: Int16
+    @NSManaged public var quantityDelivered5GTaos: Int16
+    @NSManaged public var quantityDelivered3GTaos: Int16
+    @NSManaged public var quantityDeliveredHgTaos: Int16
+    @NSManaged public var quantityDelivered5GDist: Int16
+    @NSManaged public var quantityDelivered3GDist: Int16
+    @NSManaged public var quantityDeliveredHgDist: Int16
+    @NSManaged public var quantityReturned5G: Int16
+    @NSManaged public var quantityReturned3G: Int16
+    @NSManaged public var quantityReturnedHg: Int16
     @NSManaged public var customer: Customer?
     @NSManaged public var route: Route?
-    @NSManaged public var products: Product?
+    @NSManaged public var products: NSSet?
+
+}
+
+// MARK: Generated accessors for products
+extension Delivery {
+
+    @objc(addProductsObject:)
+    @NSManaged public func addToProducts(_ value: Product)
+
+    @objc(removeProductsObject:)
+    @NSManaged public func removeFromProducts(_ value: Product)
+
+    @objc(addProducts:)
+    @NSManaged public func addToProducts(_ values: NSSet)
+
+    @objc(removeProducts:)
+    @NSManaged public func removeFromProducts(_ values: NSSet)
 
 }
 

@@ -3,46 +3,52 @@ import SwiftUI
 struct DeliveriesView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(
-        entity: Delivery.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \Delivery.date, ascending: true)]
-    ) var deliveries: FetchedResults<Delivery>
-    
+        sortDescriptors: [NSSortDescriptor(keyPath: \Delivery.date, ascending: true)],
+        animation: .default)
+    private var deliveries: FetchedResults<Delivery>
+
     var body: some View {
         NavigationView {
             List {
                 ForEach(deliveries) { delivery in
                     NavigationLink(destination: DeliveryDetailView(delivery: delivery)) {
-                        Text("Delivery on \(delivery.date ?? Date(), formatter: dateFormatter)")
+                        VStack(alignment: .leading) {
+                            Text("Customer: \(delivery.customer?.name ?? "Unknown")")
+                            Text("Route Date: \(delivery.route?.date ?? Date(), formatter: itemFormatter)")
+                        }
                     }
                 }
                 .onDelete(perform: deleteDeliveries)
             }
-            .navigationBarTitle("Deliveries")
-            .navigationBarItems(trailing: NavigationLink("Add Delivery", destination: AddDeliveryView()))
+            .navigationTitle("Deliveries")
+            .navigationBarItems(trailing: Button("Add Delivery") {
+                addDelivery()
+            })
         }
     }
-    
-    private func deleteDeliveries(offsets: IndexSet) {
-        for index in offsets {
-            let delivery = deliveries[index]
-            viewContext.delete(delivery)
-        }
+
+    private func addDelivery() {
+        let newDelivery = Delivery(context: viewContext)
+        newDelivery.date = Date()
+        newDelivery.customer = deliveries.first?.customer // Assign a customer to the new delivery
+        newDelivery.route = deliveries.first?.route // Assign a route to the new delivery
         do {
             try viewContext.save()
         } catch {
-            print("Error deleting delivery: \(error)")
+            // Handle error appropriately
+            print("Error adding delivery: \(error)")
         }
     }
-    
-    private var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        return formatter
-    }
-}
 
-struct DeliveriesView_Previews: PreviewProvider {
-    static var previews: some View {
-        DeliveriesView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    private func deleteDeliveries(offsets: IndexSet) {
+        withAnimation {
+            offsets.map { deliveries[$0] }.forEach(viewContext.delete)
+            do {
+                try viewContext.save()
+            } catch {
+                // Handle error appropriately
+                print("Error deleting delivery: \(error)")
+            }
+        }
     }
 }

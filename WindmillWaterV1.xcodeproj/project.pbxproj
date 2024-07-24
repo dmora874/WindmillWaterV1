@@ -37,6 +37,8 @@
 		FF8121282C50689D00F21423 /* UserRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8121272C50689D00F21423 /* UserRole.swift */; };
 		FF81212C2C506A1100F21423 /* UserRoleEnvrionment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF81212B2C506A1100F21423 /* UserRoleEnvrionment.swift */; };
 		FF8121302C507CF900F21423 /* ManageDeliveriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF81212F2C507CF900F21423 /* ManageDeliveriesView.swift */; };
+		FF81213C2C50991B00F21423 /* CustomerAccordion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF81213B2C50991B00F21423 /* CustomerAccordion.swift */; };
+		FF81213E2C50A0BE00F21423 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF81213D2C50A0BE00F21423 /* ButtonStyles.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +73,8 @@
 		FF8121272C50689D00F21423 /* UserRole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRole.swift; sourceTree = "<group>"; };
 		FF81212B2C506A1100F21423 /* UserRoleEnvrionment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRoleEnvrionment.swift; sourceTree = "<group>"; };
 		FF81212F2C507CF900F21423 /* ManageDeliveriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageDeliveriesView.swift; sourceTree = "<group>"; };
+		FF81213B2C50991B00F21423 /* CustomerAccordion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerAccordion.swift; sourceTree = "<group>"; };
+		FF81213D2C50A0BE00F21423 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +165,7 @@
 			children = (
 				FF81210A2C504C1B00F21423 /* ExportData.swift */,
 				FF8120D72C501EA100F21423 /* Persistence.swift */,
+				FF81213D2C50A0BE00F21423 /* ButtonStyles.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -196,6 +201,7 @@
 				FF8120FC2C50426A00F21423 /* AddDeliveryView.swift */,
 				FF8121022C5046FD00F21423 /* EditDeliveryView.swift */,
 				FF81212F2C507CF900F21423 /* ManageDeliveriesView.swift */,
+				FF81213B2C50991B00F21423 /* CustomerAccordion.swift */,
 			);
 			path = Delivery;
 			sourceTree = "<group>";
@@ -289,8 +295,10 @@
 				FF81210F2C504EF200F21423 /* AddRouteView.swift in Sources */,
 				FF8120FF2C50429D00F21423 /* ManageProductsView.swift in Sources */,
 				FF8121302C507CF900F21423 /* ManageDeliveriesView.swift in Sources */,
+				FF81213C2C50991B00F21423 /* CustomerAccordion.swift in Sources */,
 				FF8120FB2C50418200F21423 /* DeliveryDetialView.swift in Sources */,
 				FF8121172C5052C600F21423 /* MultipleSelectionRow.swift in Sources */,
+				FF81213E2C50A0BE00F21423 /* ButtonStyles.swift in Sources */,
 				FF81210B2C504C1B00F21423 /* ExportData.swift in Sources */,
 				FF8120FD2C50426A00F21423 /* AddDeliveryView.swift in Sources */,
 				FF8120F72C50412F00F21423 /* MainView.swift in Sources */,

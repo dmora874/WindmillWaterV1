@@ -23,7 +23,24 @@ extension Customer {
     @NSManaged public var pricingInformation: String?
     @NSManaged public var notes: String?
     @NSManaged public var routeAssociation: Route?
-    @NSManaged public var deliveries: Delivery?
+    @NSManaged public var deliveries: NSSet?
+
+}
+
+// MARK: Generated accessors for deliveries
+extension Customer {
+
+    @objc(addDeliveriesObject:)
+    @NSManaged public func addToDeliveries(_ value: Delivery)
+
+    @objc(removeDeliveriesObject:)
+    @NSManaged public func removeFromDeliveries(_ value: Delivery)
+
+    @objc(addDeliveries:)
+    @NSManaged public func addToDeliveries(_ values: NSSet)
+
+    @objc(removeDeliveries:)
+    @NSManaged public func removeFromDeliveries(_ values: NSSet)
 
 }
 

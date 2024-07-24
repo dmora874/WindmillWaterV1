@@ -4,68 +4,39 @@ struct EditRouteView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var route: Route
-    @State private var selectedCustomers: [Customer] = []
+    @State private var identifier: String
+    @State private var date: Date
 
-    @FetchRequest(
-        entity: Customer.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \Customer.name, ascending: true)]
-    ) var customers: FetchedResults<Customer>
+    init(route: Route) {
+        self.route = route
+        _identifier = State(initialValue: route.identifier ?? "")
+        _date = State(initialValue: route.date ?? Date())
+    }
 
     var body: some View {
-        NavigationView {
-            Form {
-                Section(header: Text("Route Details")) {
-                    TextField("Identifier", text: Binding(
-                        get: { route.identifier ?? "" },
-                        set: { route.identifier = $0 }
-                    ))
-                    DatePicker("Date", selection: Binding(
-                        get: { route.date ?? Date() },
-                        set: { route.date = $0 }
-                    ), displayedComponents: .date)
-                }
+        Form {
+            Section(header: Text("Route Details")) {
+                TextField("Identifier", text: $identifier)
+                DatePicker("Date", selection: $date, displayedComponents: .date)
+            }
 
-                Section(header: Text("Customers")) {
-                    List {
-                        ForEach(customers) { customer in
-                            CustomerSelectionRow(customer: customer, isSelected: selectedCustomers.contains(customer)) {
-                                if selectedCustomers.contains(customer) {
-                                    selectedCustomers.removeAll { $0 == customer }
-                                } else {
-                                    selectedCustomers.append(customer)
-                                }
-                            }
-                        }
-                    }
-                }
+            Button("Save") {
+                route.identifier = identifier
+                route.date = date
+                saveContext()
+                presentationMode.wrappedValue.dismiss()
             }
-            .navigationBarTitle("Edit Route")
-            .navigationBarItems(trailing: Button("Save") {
-                editRoute()
-            })
-            .onAppear {
-                if let customers = route.customers as? Set<Customer> {
-                    selectedCustomers = Array(customers)
-                }
-            }
+            .buttonStyle(PrimaryButtonStyle())
         }
+        .navigationBarTitle("Edit Route")
     }
 
-    private func editRoute() {
-        route.customers = NSSet(array: selectedCustomers)
-
+    private func saveContext() {
         do {
             try viewContext.save()
-            presentationMode.wrappedValue.dismiss()
         } catch {
-            // Handle the error appropriately
-            print("Error saving route: \(error)")
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
-    }
-}
-
-struct EditRouteView_Previews: PreviewProvider {
-    static var previews: some View {
-        EditRouteView(route: Route()).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
