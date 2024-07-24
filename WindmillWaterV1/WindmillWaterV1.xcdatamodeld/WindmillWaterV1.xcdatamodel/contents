@@ -27,6 +27,8 @@
     <entity name="Route" representedClassName="Route" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="identifier" optional="YES" attributeType="String"/>
+        <attribute name="isCompleted" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isStarted" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <relationship name="customers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Customer" inverseName="routeAssociation" inverseEntity="Customer"/>
         <relationship name="deliveries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Delivery" inverseName="route" inverseEntity="Delivery"/>
     </entity>

@@ -17,42 +17,40 @@ struct EditDeliveryView: View {
     @State private var date: Date = Date()
 
     var body: some View {
-        NavigationView {
-            Form {
-                Section(header: Text("Delivery Details")) {
-                    DatePicker("Date", selection: $date, displayedComponents: .date)
-                    TextField("Quantity Delivered", text: $quantityDelivered)
-                        .keyboardType(.numberPad)
-                    TextField("Quantity Returned", text: $quantityReturned)
-                        .keyboardType(.numberPad)
-                    TextField("Notes", text: $notes)
-                }
+        Form {
+            Section(header: Text("Delivery Details")) {
+                DatePicker("Date", selection: $date, displayedComponents: .date)
+                TextField("Quantity Delivered", text: $quantityDelivered)
+                    .keyboardType(.numberPad)
+                TextField("Quantity Returned", text: $quantityReturned)
+                    .keyboardType(.numberPad)
+                TextField("Notes", text: $notes)
+            }
 
-                Section(header: Text("Products")) {
-                    List(products, id: \.self) { product in
-                        ProductSelectionRow(product: product, isSelected: selectedProducts.contains(product)) {
-                            if selectedProducts.contains(product) {
-                                selectedProducts.remove(product)
-                            } else {
-                                selectedProducts.insert(product)
-                            }
+            Section(header: Text("Products")) {
+                List(products, id: \.self) { product in
+                    ProductSelectionRow(product: product, isSelected: selectedProducts.contains(product)) {
+                        if selectedProducts.contains(product) {
+                            selectedProducts.remove(product)
+                        } else {
+                            selectedProducts.insert(product)
                         }
                     }
                 }
             }
-            .navigationBarTitle("Edit Delivery")
-            .navigationBarItems(trailing: Button("Save") {
-                updateDelivery()
-            })
-            .onAppear {
-                if let products = delivery.products as? Set<Product> {
-                    selectedProducts = products
-                }
-                quantityDelivered = String(delivery.quantityDelivered)
-                quantityReturned = String(delivery.quantityReturned)
-                notes = delivery.notes ?? ""
-                date = delivery.date ?? Date()
+        }
+        .navigationBarTitle("Edit Delivery")
+        .navigationBarItems(trailing: Button("Save") {
+            updateDelivery()
+        })
+        .onAppear {
+            if let products = delivery.products as? Set<Product> {
+                selectedProducts = products
             }
+            quantityDelivered = String(delivery.quantityDelivered)
+            quantityReturned = String(delivery.quantityReturned)
+            notes = delivery.notes ?? ""
+            date = delivery.date ?? Date()
         }
     }
 
@@ -67,7 +65,6 @@ struct EditDeliveryView: View {
             try viewContext.save()
             presentationMode.wrappedValue.dismiss()
         } catch {
-            // Handle the error appropriately
             print("Error saving delivery: \(error)")
         }
     }
