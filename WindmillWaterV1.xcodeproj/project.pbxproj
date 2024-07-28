@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		FF770F9D2C55C2FF0091EBA5 /* DefaultDeliveryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF770F9C2C55C2FF0091EBA5 /* DefaultDeliveryRow.swift */; };
+		FF770FA12C55CFF80091EBA5 /* CustomerDeliveryManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF770FA02C55CFF80091EBA5 /* CustomerDeliveryManagerView.swift */; };
+		FF770FA52C55D3BC0091EBA5 /* StepperWithLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF770FA42C55D3BC0091EBA5 /* StepperWithLabel.swift */; };
 		FF8120CF2C501E9F00F21423 /* WindmillWaterV1App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8120CE2C501E9F00F21423 /* WindmillWaterV1App.swift */; };
 		FF8120D12C501E9F00F21423 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8120D02C501E9F00F21423 /* ContentView.swift */; };
 		FF8120D32C501EA100F21423 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF8120D22C501EA100F21423 /* Assets.xcassets */; };
@@ -46,6 +48,8 @@
 
 /* Begin PBXFileReference section */
 		FF770F9C2C55C2FF0091EBA5 /* DefaultDeliveryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDeliveryRow.swift; sourceTree = "<group>"; };
+		FF770FA02C55CFF80091EBA5 /* CustomerDeliveryManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDeliveryManagerView.swift; sourceTree = "<group>"; };
+		FF770FA42C55D3BC0091EBA5 /* StepperWithLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepperWithLabel.swift; sourceTree = "<group>"; };
 		FF8120CB2C501E9F00F21423 /* WindmillWaterV1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WindmillWaterV1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF8120CE2C501E9F00F21423 /* WindmillWaterV1App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindmillWaterV1App.swift; sourceTree = "<group>"; };
 		FF8120D02C501E9F00F21423 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -173,6 +177,7 @@
 				FF81210A2C504C1B00F21423 /* ExportData.swift */,
 				FF8120D72C501EA100F21423 /* Persistence.swift */,
 				FF81213D2C50A0BE00F21423 /* ButtonStyles.swift */,
+				FF770FA42C55D3BC0091EBA5 /* StepperWithLabel.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -211,6 +216,7 @@
 				FF81212F2C507CF900F21423 /* ManageDeliveriesView.swift */,
 				FF81213B2C50991B00F21423 /* CustomerAccordion.swift */,
 				FF8121412C51864000F21423 /* CustomerDetailView.swift */,
+				FF770FA02C55CFF80091EBA5 /* CustomerDeliveryManagerView.swift */,
 			);
 			path = Delivery;
 			sourceTree = "<group>";
@@ -305,6 +311,7 @@
 				FF8120FF2C50429D00F21423 /* ManageProductsView.swift in Sources */,
 				FF8121302C507CF900F21423 /* ManageDeliveriesView.swift in Sources */,
 				FF81213C2C50991B00F21423 /* CustomerAccordion.swift in Sources */,
+				FF770FA52C55D3BC0091EBA5 /* StepperWithLabel.swift in Sources */,
 				FF8120FB2C50418200F21423 /* DeliveryDetialView.swift in Sources */,
 				FF8121172C5052C600F21423 /* MultipleSelectionRow.swift in Sources */,
 				FF81213E2C50A0BE00F21423 /* ButtonStyles.swift in Sources */,
@@ -324,6 +331,7 @@
 				FF8121262C5067B400F21423 /* RouteSummaryView.swift in Sources */,
 				FF770F9D2C55C2FF0091EBA5 /* DefaultDeliveryRow.swift in Sources */,
 				FF8120F92C50415700F21423 /* AddCustomerView.swift in Sources */,
+				FF770FA12C55CFF80091EBA5 /* CustomerDeliveryManagerView.swift in Sources */,
 				FF8121072C504B3900F21423 /* CustomersListView.swift in Sources */,
 				FF8121442C51891800F21423 /* RoutesViewModel.swift in Sources */,
 				FF8120CF2C501E9F00F21423 /* WindmillWaterV1App.swift in Sources */,

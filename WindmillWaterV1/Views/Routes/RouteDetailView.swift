@@ -8,80 +8,76 @@ struct RouteDetailView: View {
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
-        VStack {
-            Form {
-                Section(header: Text("Route Details")) {
+        ScrollView {
+            VStack(spacing: 20) {
+                VStack(alignment: .leading, spacing: 10) {
                     Text("Identifier: \(route.identifier ?? "")")
                     Text("Date: \(route.date ?? Date(), formatter: itemFormatter)")
                     Text("Status: \(route.isCompleted ? "Completed" : (route.isStarted ? "In Progress" : "Not Started"))")
                         .foregroundColor(route.isCompleted ? .green : (route.isStarted ? .blue : .red))
                 }
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
+                .padding(.horizontal)
 
-                Section(header: Text("Customers")) {
-                    ForEach(route.customersArray) { customer in
-                        VStack(alignment: .leading) {
-                            Text("Name: \(customer.name ?? "Unknown")")
-                            Text("Address: \(customer.address ?? "Unknown")")
-                            Text("Phone: \(customer.phoneNumber ?? "Unknown")")
-                            if userRole == .admin || !route.isCompleted {
-                                NavigationLink(destination: CustomerDetailView(customer: customer)) {
-                                    Text("Details")
+                if userRole == .deliveryManager {
+                    Section(header: Text("Customers").font(.headline)) {
+                        ForEach(route.customersArray) { customer in
+                            NavigationLink(destination: CustomerDetailView(customer: customer)) {
+                                VStack(alignment: .leading) {
+                                    Text("Name: \(customer.name ?? "Unknown")")
+                                    Text("Address: \(customer.address ?? "Unknown")")
+                                    Text("Phone: \(customer.phoneNumber ?? "Unknown")")
                                 }
-                            } else {
-                                Text("5G Reg: \(customer.quantityDelivered5GReg)")
-                                Text("3G Reg: \(customer.quantityDelivered3GReg)")
-                                Text("Hg Reg: \(customer.quantityDeliveredHgReg)")
-                                Text("5G Taos: \(customer.quantityDelivered5GTaos)")
-                                Text("3G Taos: \(customer.quantityDelivered3GTaos)")
-                                Text("Hg Taos: \(customer.quantityDeliveredHgTaos)")
-                                Text("5G Dist: \(customer.quantityDelivered5GDist)")
-                                Text("3G Dist: \(customer.quantityDelivered3GDist)")
-                                Text("Hg Dist: \(customer.quantityDeliveredHgDist)")
-                                Text("5G Returned: \(customer.quantityReturned5G)")
-                                Text("3G Returned: \(customer.quantityReturned3G)")
-                                Text("Hg Returned: \(customer.quantityReturnedHg)")
+                                .padding()
+                                .background(Color(.systemGray6))
+                                .cornerRadius(8)
+                                .padding(.horizontal)
                             }
                         }
-                        .padding()
                     }
                 }
-            }
 
-            if userRole == .admin {
-                HStack {
-                    NavigationLink(destination: EditRouteView(route: route), isActive: $showEditRoute) {
-                        Button("Edit Route") {
-                            showEditRoute = true
+                if userRole == .admin {
+                    HStack {
+                        NavigationLink(destination: EditRouteView(route: route), isActive: $showEditRoute) {
+                            Button("Edit Route") {
+                                showEditRoute = true
+                            }
+                            .buttonStyle(PrimaryButtonStyle())
                         }
-                        .buttonStyle(PrimaryButtonStyle())
-                    }
 
-                    Button("Delete Route") {
-                        deleteRoute()
+                        Button("Delete Route") {
+                            deleteRoute()
+                        }
+                        .buttonStyle(DestructiveButtonStyle())
                     }
-                    .buttonStyle(DestructiveButtonStyle())
+                    .padding()
+                }
+
+                if userRole == .deliveryManager {
+                    HStack {
+                        if !route.isStarted {
+                            Button("Start Route") {
+                                route.isStarted = true
+                                saveContext()
+                            }
+                            .buttonStyle(PrimaryButtonStyle())
+                        } else if route.isStarted && !route.isCompleted {
+                            Button("Complete Route") {
+                                route.isCompleted = true
+                                saveContext()
+                            }
+                            .buttonStyle(PrimaryButtonStyle())
+                        }
+                    }
+                    .padding()
                 }
             }
-
-            if userRole == .deliveryManager {
-                HStack {
-                    if !route.isStarted {
-                        Button("Start Route") {
-                            route.isStarted = true
-                            saveContext()
-                        }
-                        .buttonStyle(PrimaryButtonStyle())
-                    } else if route.isStarted && !route.isCompleted {
-                        Button("Complete Route") {
-                            route.isCompleted = true
-                            saveContext()
-                        }
-                        .buttonStyle(PrimaryButtonStyle())
-                    }
-                }
-            }
+            .padding()
         }
-        .navigationBarTitle("Route Details")
+        .navigationBarTitle("Route Details", displayMode: .inline)
     }
 
     private func saveContext() {
