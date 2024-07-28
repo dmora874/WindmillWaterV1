@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="22G630" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="22G720" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Customer" representedClassName="Customer" syncable="YES" codeGenerationType="class">
         <attribute name="address" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
@@ -21,8 +21,15 @@
         <attribute name="quantityReturned3G" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="quantityReturned5G" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="quantityReturnedHg" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="defaultDeliveries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DefaultDelivery" inverseName="customer" inverseEntity="DefaultDelivery"/>
         <relationship name="deliveries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Delivery" inverseName="customer" inverseEntity="Delivery"/>
         <relationship name="routeAssociation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Route" inverseName="customers" inverseEntity="Route"/>
+    </entity>
+    <entity name="DefaultDelivery" representedClassName="DefaultDelivery" syncable="YES" codeGenerationType="class">
+        <attribute name="bottleType" optional="YES" attributeType="String"/>
+        <attribute name="waterType" optional="YES" attributeType="String"/>
+        <relationship name="customer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Customer" inverseName="defaultDeliveries" inverseEntity="Customer"/>
+        <relationship name="defaultDeliveries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DefaultDelivery" inverseName="defaultDeliveries" inverseEntity="DefaultDelivery"/>
     </entity>
     <entity name="Delivery" representedClassName="Delivery" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>

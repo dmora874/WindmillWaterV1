@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FF770F9D2C55C2FF0091EBA5 /* DefaultDeliveryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF770F9C2C55C2FF0091EBA5 /* DefaultDeliveryRow.swift */; };
 		FF8120CF2C501E9F00F21423 /* WindmillWaterV1App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8120CE2C501E9F00F21423 /* WindmillWaterV1App.swift */; };
 		FF8120D12C501E9F00F21423 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8120D02C501E9F00F21423 /* ContentView.swift */; };
 		FF8120D32C501EA100F21423 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF8120D22C501EA100F21423 /* Assets.xcassets */; };
@@ -44,6 +45,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FF770F9C2C55C2FF0091EBA5 /* DefaultDeliveryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDeliveryRow.swift; sourceTree = "<group>"; };
 		FF8120CB2C501E9F00F21423 /* WindmillWaterV1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WindmillWaterV1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF8120CE2C501E9F00F21423 /* WindmillWaterV1App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindmillWaterV1App.swift; sourceTree = "<group>"; };
 		FF8120D02C501E9F00F21423 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				FF8120F82C50415700F21423 /* AddCustomerView.swift */,
 				FF8121062C504B3900F21423 /* CustomersListView.swift */,
 				FF8121082C504B5F00F21423 /* EditCustomerView.swift */,
+				FF770F9C2C55C2FF0091EBA5 /* DefaultDeliveryRow.swift */,
 			);
 			path = Customer;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				FF81211B2C505F3A00F21423 /* ProductSelectionRow.swift in Sources */,
 				FF8120DB2C501EA100F21423 /* WindmillWaterV1.xcdatamodeld in Sources */,
 				FF8121262C5067B400F21423 /* RouteSummaryView.swift in Sources */,
+				FF770F9D2C55C2FF0091EBA5 /* DefaultDeliveryRow.swift in Sources */,
 				FF8120F92C50415700F21423 /* AddCustomerView.swift in Sources */,
 				FF8121072C504B3900F21423 /* CustomersListView.swift in Sources */,
 				FF8121442C51891800F21423 /* RoutesViewModel.swift in Sources */,
