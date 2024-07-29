@@ -2,7 +2,7 @@
 //  Delivery+CoreDataProperties.swift
 //  WindmillWaterV1
 //
-//  Created by Derek Mora on 7/23/24.
+//  Created by Derek Mora on 7/29/24.
 //
 //
 
@@ -17,24 +17,24 @@ extension Delivery {
     }
 
     @NSManaged public var date: Date?
-    @NSManaged public var quantityDelivered: Int16
-    @NSManaged public var quantityReturned: Int16
     @NSManaged public var notes: String?
-    @NSManaged public var quantityDelivered5GReg: Int16
-    @NSManaged public var quantityDelivered3GReg: Int16
-    @NSManaged public var quantityDeliveredHgReg: Int16
-    @NSManaged public var quantityDelivered5GTaos: Int16
-    @NSManaged public var quantityDelivered3GTaos: Int16
-    @NSManaged public var quantityDeliveredHgTaos: Int16
-    @NSManaged public var quantityDelivered5GDist: Int16
+    @NSManaged public var quantityDelivered: Int16
     @NSManaged public var quantityDelivered3GDist: Int16
+    @NSManaged public var quantityDelivered3GReg: Int16
+    @NSManaged public var quantityDelivered3GTaos: Int16
+    @NSManaged public var quantityDelivered5GDist: Int16
+    @NSManaged public var quantityDelivered5GReg: Int16
+    @NSManaged public var quantityDelivered5GTaos: Int16
     @NSManaged public var quantityDeliveredHgDist: Int16
-    @NSManaged public var quantityReturned5G: Int16
+    @NSManaged public var quantityDeliveredHgReg: Int16
+    @NSManaged public var quantityDeliveredHgTaos: Int16
+    @NSManaged public var quantityReturned: Int16
     @NSManaged public var quantityReturned3G: Int16
+    @NSManaged public var quantityReturned5G: Int16
     @NSManaged public var quantityReturnedHg: Int16
     @NSManaged public var customer: Customer?
-    @NSManaged public var route: Route?
     @NSManaged public var products: NSSet?
+    @NSManaged public var route: Route?
 
 }
 
@@ -52,9 +52,5 @@ extension Delivery {
 
     @objc(removeProducts:)
     @NSManaged public func removeFromProducts(_ values: NSSet)
-
-}
-
-extension Delivery : Identifiable {
 
 }

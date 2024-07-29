@@ -2,6 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="22G720" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Customer" representedClassName="Customer" syncable="YES" codeGenerationType="class">
         <attribute name="address" optional="YES" attributeType="String"/>
+        <attribute name="deliveredQuantities" optional="YES" attributeType="Transformable"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="notes" optional="YES" attributeType="String"/>
         <attribute name="paymentMethod" optional="YES" attributeType="String"/>
@@ -21,9 +22,21 @@
         <attribute name="quantityReturned3G" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="quantityReturned5G" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="quantityReturnedHg" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="returnedQuantities" optional="YES" attributeType="Transformable"/>
+        <relationship name="dailyDeliveries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DailyDelivery" inverseName="customer" inverseEntity="DailyDelivery"/>
         <relationship name="defaultDeliveries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DefaultDelivery" inverseName="customer" inverseEntity="DefaultDelivery"/>
         <relationship name="deliveries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Delivery" inverseName="customer" inverseEntity="Delivery"/>
         <relationship name="routeAssociation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Route" inverseName="customers" inverseEntity="Route"/>
+    </entity>
+    <entity name="DailyDelivery" representedClassName="DailyDelivery" syncable="YES" codeGenerationType="class">
+        <attribute name="bottleType" optional="YES" attributeType="String"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="deliveredQuantity" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="returnedQuantity" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="waterType" optional="YES" attributeType="String"/>
+        <relationship name="customer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Customer" inverseName="dailyDeliveries" inverseEntity="Customer"/>
+        <relationship name="dailyDeliveries" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DailyDelivery"/>
+        <relationship name="route" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Route" inverseName="dailyDeliveries" inverseEntity="Route"/>
     </entity>
     <entity name="DefaultDelivery" representedClassName="DefaultDelivery" syncable="YES" codeGenerationType="class">
         <attribute name="bottleType" optional="YES" attributeType="String"/>
@@ -63,6 +76,7 @@
         <attribute name="isCompleted" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isStarted" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <relationship name="customers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Customer" inverseName="routeAssociation" inverseEntity="Customer"/>
+        <relationship name="dailyDeliveries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DailyDelivery" inverseName="route" inverseEntity="DailyDelivery"/>
         <relationship name="deliveries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Delivery" inverseName="route" inverseEntity="Delivery"/>
     </entity>
 </model>

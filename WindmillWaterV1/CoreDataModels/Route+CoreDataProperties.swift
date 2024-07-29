@@ -2,7 +2,7 @@
 //  Route+CoreDataProperties.swift
 //  WindmillWaterV1
 //
-//  Created by Derek Mora on 7/23/24.
+//  Created by Derek Mora on 7/29/24.
 //
 //
 
@@ -16,12 +16,13 @@ extension Route {
         return NSFetchRequest<Route>(entityName: "Route")
     }
 
-    @NSManaged public var identifier: String?
     @NSManaged public var date: Date?
-    @NSManaged public var isStarted: Bool
+    @NSManaged public var identifier: String?
     @NSManaged public var isCompleted: Bool
+    @NSManaged public var isStarted: Bool
     @NSManaged public var customers: NSSet?
     @NSManaged public var deliveries: NSSet?
+    @NSManaged public var dailyDeliveries: DailyDelivery?
 
 }
 
@@ -56,9 +57,5 @@ extension Route {
 
     @objc(removeDeliveries:)
     @NSManaged public func removeFromDeliveries(_ values: NSSet)
-
-}
-
-extension Route : Identifiable {
 
 }

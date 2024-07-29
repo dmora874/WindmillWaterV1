@@ -8,76 +8,77 @@ struct RouteDetailView: View {
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                VStack(alignment: .leading, spacing: 10) {
+        VStack {
+            Form {
+                Section(header: Text("Route Details")) {
                     Text("Identifier: \(route.identifier ?? "")")
                     Text("Date: \(route.date ?? Date(), formatter: itemFormatter)")
                     Text("Status: \(route.isCompleted ? "Completed" : (route.isStarted ? "In Progress" : "Not Started"))")
                         .foregroundColor(route.isCompleted ? .green : (route.isStarted ? .blue : .red))
                 }
-                .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(8)
-                .padding(.horizontal)
 
                 if userRole == .deliveryManager {
-                    Section(header: Text("Customers").font(.headline)) {
-                        ForEach(route.customersArray) { customer in
-                            NavigationLink(destination: CustomerDetailView(customer: customer)) {
-                                VStack(alignment: .leading) {
-                                    Text("Name: \(customer.name ?? "Unknown")")
-                                    Text("Address: \(customer.address ?? "Unknown")")
-                                    Text("Phone: \(customer.phoneNumber ?? "Unknown")")
+                    Section(header: Text("Customers")) {
+                        ForEach(route.customersList, id: \.self) { customer in
+                            VStack(alignment: .leading) {
+                                Text("Name: \(customer.name ?? "Unknown")")
+                                Text("Address: \(customer.address ?? "Unknown")")
+                                Text("Phone: \(customer.phoneNumber ?? "Unknown")")
+                                NavigationLink(destination: CustomerDetailView(customer: customer, route: route)) {
+                                    Text("Details")
                                 }
-                                .padding()
-                                .background(Color(.systemGray6))
-                                .cornerRadius(8)
-                                .padding(.horizontal)
                             }
+                            .padding()
                         }
                     }
-                }
-
-                if userRole == .admin {
-                    HStack {
-                        NavigationLink(destination: EditRouteView(route: route), isActive: $showEditRoute) {
-                            Button("Edit Route") {
-                                showEditRoute = true
-                            }
-                            .buttonStyle(PrimaryButtonStyle())
-                        }
-
-                        Button("Delete Route") {
-                            deleteRoute()
-                        }
-                        .buttonStyle(DestructiveButtonStyle())
-                    }
-                    .padding()
-                }
-
-                if userRole == .deliveryManager {
-                    HStack {
-                        if !route.isStarted {
-                            Button("Start Route") {
-                                route.isStarted = true
-                                saveContext()
-                            }
-                            .buttonStyle(PrimaryButtonStyle())
-                        } else if route.isStarted && !route.isCompleted {
-                            Button("Complete Route") {
-                                route.isCompleted = true
-                                saveContext()
-                            }
-                            .buttonStyle(PrimaryButtonStyle())
-                        }
-                    }
-                    .padding()
                 }
             }
-            .padding()
+
+            if userRole == .admin {
+                HStack {
+                    NavigationLink(destination: EditRouteView(route: route), isActive: $showEditRoute) {
+                        Button("Edit Route") {
+                            showEditRoute = true
+                        }
+                        .buttonStyle(PrimaryButtonStyle())
+                    }
+                    
+                    Button("Delete Route") {
+                        deleteRoute()
+                    }
+                    .buttonStyle(DestructiveButtonStyle())
+                }
+            }
+
+            if userRole == .deliveryManager {
+                VStack {
+                    if !route.isStarted {
+                        Button("Start Route") {
+                            route.isStarted = true
+                            saveContext()
+                        }
+                        .buttonStyle(PrimaryButtonStyle())
+                    } else if route.isStarted && !route.isCompleted {
+                        Button("Complete Route") {
+                            route.isCompleted = true
+                            saveContext()
+                        }
+                        .buttonStyle(PrimaryButtonStyle())
+                    }
+                    
+                    NavigationLink(destination: DeliverySummaryView(route: route)) {
+                        Text("View Summary")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .padding(.top, 10)
+                    }
+                }
+            }
         }
-        .navigationBarTitle("Route Details", displayMode: .inline)
+        .navigationBarTitle("Route Details")
     }
 
     private func saveContext() {
@@ -93,5 +94,13 @@ struct RouteDetailView: View {
         viewContext.delete(route)
         saveContext()
         presentationMode.wrappedValue.dismiss()
+    }
+}
+
+// Helper extension to convert NSSet to array
+extension Route {
+    var customersList: [Customer] {
+        let set = customers as? Set<Customer> ?? []
+        return Array(set)
     }
 }

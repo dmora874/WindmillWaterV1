@@ -2,7 +2,7 @@
 //  Product+CoreDataProperties.swift
 //  WindmillWaterV1
 //
-//  Created by Derek Mora on 7/23/24.
+//  Created by Derek Mora on 7/29/24.
 //
 //
 
@@ -36,9 +36,5 @@ extension Product {
 
     @objc(removeDeliveries:)
     @NSManaged public func removeFromDeliveries(_ values: NSSet)
-
-}
-
-extension Product : Identifiable {
 
 }

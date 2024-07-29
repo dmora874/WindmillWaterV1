@@ -14,3 +14,9 @@ struct StepperWithLabel: View {
         }
     }
 }
+
+struct StepperWithLabel_Previews: PreviewProvider {
+    static var previews: some View {
+        StepperWithLabel(label: "5G Reg", value: .constant(0))
+    }
+}

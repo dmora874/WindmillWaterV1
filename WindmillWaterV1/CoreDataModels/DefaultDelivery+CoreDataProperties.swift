@@ -2,7 +2,7 @@
 //  DefaultDelivery+CoreDataProperties.swift
 //  WindmillWaterV1
 //
-//  Created by Derek Mora on 7/27/24.
+//  Created by Derek Mora on 7/29/24.
 //
 //
 
@@ -37,9 +37,5 @@ extension DefaultDelivery {
 
     @objc(removeDefaultDeliveries:)
     @NSManaged public func removeFromDefaultDeliveries(_ values: NSSet)
-
-}
-
-extension DefaultDelivery : Identifiable {
 
 }

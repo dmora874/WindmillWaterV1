@@ -1,8 +1,10 @@
 import SwiftUI
+import CoreData
 
 struct CustomerDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @ObservedObject var customer: Customer
+    @ObservedObject var route: Route
     @Environment(\.presentationMode) var presentationMode
 
     @State private var deliveredQuantities: [String: Int16] = [:]
@@ -70,6 +72,7 @@ struct CustomerDetailView: View {
 
                 Button("Save") {
                     saveQuantities()
+                    loadExistingQuantities()  // Reload quantities after saving
                     presentationMode.wrappedValue.dismiss()
                 }
                 .buttonStyle(PrimaryButtonStyle())
@@ -84,14 +87,49 @@ struct CustomerDetailView: View {
     }
 
     private func loadExistingQuantities() {
-        // Load any existing delivered and returned quantities from Core Data if necessary
-        // This code will be implementation specific depending on your data model
+        let fetchRequest: NSFetchRequest<DailyDelivery> = DailyDelivery.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "customer == %@ AND route == %@", customer, route)
+
+        do {
+            let dailyDeliveries = try viewContext.fetch(fetchRequest)
+            for delivery in dailyDeliveries {
+                if let bottleType = delivery.bottleType {
+                    deliveredQuantities[bottleType] = delivery.deliveredQuantity
+                    returnedQuantities[bottleType] = delivery.returnedQuantity
+                }
+            }
+        } catch {
+            print("Failed to fetch daily deliveries: \(error)")
+        }
     }
 
     private func saveQuantities() {
-        // Save delivered and returned quantities to Core Data
-        // This code will be implementation specific depending on your data model
+        let fetchRequest: NSFetchRequest<DailyDelivery> = DailyDelivery.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "customer == %@ AND route == %@", customer, route)
+
         do {
+            let dailyDeliveries = try viewContext.fetch(fetchRequest)
+
+            for delivery in dailyDeliveries {
+                if let bottleType = delivery.bottleType {
+                    delivery.deliveredQuantity = deliveredQuantities[bottleType] ?? 0
+                    delivery.returnedQuantity = returnedQuantities[bottleType] ?? 0
+                }
+            }
+
+            // Ensure new DailyDelivery objects are created if they don't already exist
+            for (bottleType, quantity) in deliveredQuantities {
+                if !dailyDeliveries.contains(where: { $0.bottleType == bottleType }) {
+                    let newDelivery = DailyDelivery(context: viewContext)
+                    newDelivery.bottleType = bottleType
+                    newDelivery.waterType = (customer.defaultDeliveries as? Set<DefaultDelivery>)?.first(where: { $0.bottleType == bottleType })?.waterType ?? ""
+                    newDelivery.deliveredQuantity = quantity
+                    newDelivery.returnedQuantity = returnedQuantities[bottleType] ?? 0
+                    newDelivery.customer = customer
+                    newDelivery.route = route
+                }
+            }
+
             try viewContext.save()
         } catch {
             let nsError = error as NSError
