@@ -26,7 +26,7 @@
         <relationship name="dailyDeliveries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DailyDelivery" inverseName="customer" inverseEntity="DailyDelivery"/>
         <relationship name="defaultDeliveries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DefaultDelivery" inverseName="customer" inverseEntity="DefaultDelivery"/>
         <relationship name="deliveries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Delivery" inverseName="customer" inverseEntity="Delivery"/>
-        <relationship name="routeAssociation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Route" inverseName="customers" inverseEntity="Route"/>
+        <relationship name="routeAssociation" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Route" inverseName="customers" inverseEntity="Route"/>
     </entity>
     <entity name="DailyDelivery" representedClassName="DailyDelivery" syncable="YES" codeGenerationType="class">
         <attribute name="bottleType" optional="YES" attributeType="String"/>

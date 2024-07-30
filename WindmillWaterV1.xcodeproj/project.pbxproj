@@ -11,6 +11,7 @@
 		FF770FA12C55CFF80091EBA5 /* CustomerDeliveryManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF770FA02C55CFF80091EBA5 /* CustomerDeliveryManagerView.swift */; };
 		FF770FA52C55D3BC0091EBA5 /* StepperWithLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF770FA42C55D3BC0091EBA5 /* StepperWithLabel.swift */; };
 		FF770FA72C55D58E0091EBA5 /* DeliverySummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF770FA62C55D58E0091EBA5 /* DeliverySummaryView.swift */; };
+		FF770FBB2C5939E90091EBA5 /* Customer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF770FBA2C5939E90091EBA5 /* Customer+Extensions.swift */; };
 		FF8120CF2C501E9F00F21423 /* WindmillWaterV1App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8120CE2C501E9F00F21423 /* WindmillWaterV1App.swift */; };
 		FF8120D12C501E9F00F21423 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8120D02C501E9F00F21423 /* ContentView.swift */; };
 		FF8120D32C501EA100F21423 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF8120D22C501EA100F21423 /* Assets.xcassets */; };
@@ -51,6 +52,7 @@
 		FF770FA02C55CFF80091EBA5 /* CustomerDeliveryManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDeliveryManagerView.swift; sourceTree = "<group>"; };
 		FF770FA42C55D3BC0091EBA5 /* StepperWithLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepperWithLabel.swift; sourceTree = "<group>"; };
 		FF770FA62C55D58E0091EBA5 /* DeliverySummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliverySummaryView.swift; sourceTree = "<group>"; };
+		FF770FBA2C5939E90091EBA5 /* Customer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Customer+Extensions.swift"; sourceTree = "<group>"; };
 		FF8120CB2C501E9F00F21423 /* WindmillWaterV1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WindmillWaterV1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF8120CE2C501E9F00F21423 /* WindmillWaterV1App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindmillWaterV1App.swift; sourceTree = "<group>"; };
 		FF8120D02C501E9F00F21423 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 			children = (
 				FF8121122C50509400F21423 /* Route.swift */,
 				FF8121432C51891800F21423 /* RoutesViewModel.swift */,
+				FF770FBA2C5939E90091EBA5 /* Customer+Extensions.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				FF8121032C5046FD00F21423 /* EditDeliveryView.swift in Sources */,
 				FF8121052C5048DD00F21423 /* EditProdcutView.swift in Sources */,
 				FF8121012C50468B00F21423 /* RouteDetailView.swift in Sources */,
+				FF770FBB2C5939E90091EBA5 /* Customer+Extensions.swift in Sources */,
 				FF770FA72C55D58E0091EBA5 /* DeliverySummaryView.swift in Sources */,
 				FF8121092C504B5F00F21423 /* EditCustomerView.swift in Sources */,
 				FF81212C2C506A1100F21423 /* UserRoleEnvrionment.swift in Sources */,

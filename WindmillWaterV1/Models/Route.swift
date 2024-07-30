@@ -8,7 +8,7 @@ extension Route {
             $0.date ?? Date() < $1.date ?? Date()
         }
     }
-    
+
     var customersArray: [Customer] {
         let set = customers as? Set<Customer> ?? []
         return set.sorted {
