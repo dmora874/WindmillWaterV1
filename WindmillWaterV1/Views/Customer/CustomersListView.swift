@@ -15,18 +15,15 @@ struct CustomersListView: View {
             List {
                 ForEach(customers) { customer in
                     NavigationLink(destination: EditCustomerView(customer: customer)) {
-                        VStack(alignment: .leading) {
-                            Text("Name: \(customer.name ?? "Unknown")")
-                            Text("Address: \(customer.address ?? "Unknown")")
-                            Text("Phone: \(customer.phoneNumber ?? "Unknown")")
-                            Text("Notes: \(customer.notes ?? "None")")
-                            Text("Pricing: \(customer.pricingInformation ?? "Unknown")")
-                            Text("Payment: \(customer.paymentMethod ?? "Unknown")")
-                        }
+                        Text(customer.name ?? "Unknown")
+                            .font(.headline)
+                            .padding(.vertical, 10)
                     }
                 }
                 .onDelete(perform: deleteCustomers)
             }
+            .listStyle(PlainListStyle())
+            .navigationBarTitle("Customers")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
@@ -40,7 +37,7 @@ struct CustomersListView: View {
             .sheet(isPresented: $showAddCustomerView) {
                 AddCustomerView().environment(\.managedObjectContext, viewContext)
             }
-            .navigationTitle("Customers")
+            .background(Color(.systemGray6).edgesIgnoringSafeArea(.all))
         }
     }
 
