@@ -58,7 +58,6 @@ struct MainView: View {
                 }
             }
             .padding()
-            .navigationTitle("User Role Selection")
             .background(Color(.systemGray6).edgesIgnoringSafeArea(.all))
         }
         .environment(\.userRole, userRole)
