@@ -28,16 +28,28 @@ struct EditCustomerView: View {
 
     var body: some View {
         Form {
-            Section(header: Text("Customer Details")) {
+            Section(header: Text("Customer Details").font(.headline).foregroundColor(.gray)) {
                 TextField("Name", text: $name)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.vertical, 5)
                 TextField("Address", text: $address)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.vertical, 5)
                 TextField("Phone Number", text: $phoneNumber)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.vertical, 5)
                 TextField("Notes", text: $notes)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.vertical, 5)
                 TextField("Pricing Information", text: $pricingInformation)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.vertical, 5)
                 TextField("Payment Method", text: $paymentMethod)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.vertical, 5)
             }
 
-            Section(header: Text("Default Deliveries")) {
+            Section(header: Text("Default Deliveries").font(.headline).foregroundColor(.gray)) {
                 ForEach(defaultDeliveries.indices, id: \.self) { index in
                     HStack {
                         Picker("Bottle Type", selection: $defaultDeliveries[index].bottleType) {
@@ -46,6 +58,8 @@ struct EditCustomerView: View {
                             Text("Hg").tag("Hg")
                         }
                         .pickerStyle(MenuPickerStyle())
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 5)
 
                         Picker("Water Type", selection: $defaultDeliveries[index].waterType) {
                             Text("Regular").tag("Regular")
@@ -53,18 +67,22 @@ struct EditCustomerView: View {
                             Text("Distilled").tag("Distilled")
                         }
                         .pickerStyle(MenuPickerStyle())
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 5)
 
                         if index == defaultDeliveries.count - 1 {
                             Button(action: {
                                 defaultDeliveries.append(DeliveryDetail())
                             }) {
                                 Image(systemName: "plus")
+                                    .foregroundColor(.blue)
                             }
                         } else {
                             Button(action: {
                                 defaultDeliveries.remove(at: index)
                             }) {
                                 Image(systemName: "minus")
+                                    .foregroundColor(.red)
                             }
                         }
                     }
@@ -75,9 +93,13 @@ struct EditCustomerView: View {
                 saveCustomer()
                 presentationMode.wrappedValue.dismiss()
             }
-            .buttonStyle(PrimaryButtonStyle())
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .cornerRadius(10)
         }
-        .navigationBarTitle("Edit Customer")
+        .navigationBarTitle("Edit Customer", displayMode: .inline)
     }
 
     private func saveCustomer() {
@@ -105,5 +127,19 @@ struct EditCustomerView: View {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
+    }
+}
+
+struct EditCustomerView_Previews: PreviewProvider {
+    static var previews: some View {
+        let context = PersistenceController.preview.container.viewContext
+        let customer = Customer(context: context)
+        customer.name = "John Doe"
+        customer.address = "123 Main St"
+        customer.phoneNumber = "555-555-5555"
+        customer.notes = "Regular delivery"
+        customer.pricingInformation = "$10 per bottle"
+        customer.paymentMethod = "Credit Card"
+        return EditCustomerView(customer: customer).environment(\.managedObjectContext, context)
     }
 }
