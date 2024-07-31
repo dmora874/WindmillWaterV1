@@ -8,77 +8,104 @@ struct RouteDetailView: View {
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
-        VStack {
-            Form {
-                Section(header: Text("Route Details")) {
-                    Text("Identifier: \(route.identifier ?? "")")
-                    Text("Date: \(route.date ?? Date(), formatter: itemFormatter)")
-                    Text("Status: \(route.isCompleted ? "Completed" : (route.isStarted ? "In Progress" : "Not Started"))")
+        List {
+            Section(header: Text("Route Details")) {
+                HStack {
+                    Text("Identifier:")
+                    Spacer()
+                    Text(route.identifier ?? "")
+                }
+                HStack {
+                    Text("Date:")
+                    Spacer()
+                    Text("\(route.date ?? Date(), formatter: itemFormatter)")
+                }
+                HStack {
+                    Text("Status:")
+                    Spacer()
+                    Text(route.isCompleted ? "Completed" : (route.isStarted ? "In Progress" : "Not Started"))
                         .foregroundColor(route.isCompleted ? .green : (route.isStarted ? .blue : .red))
                 }
-
+                
                 if userRole == .deliveryManager {
-                    Section(header: Text("Customers")) {
-                        ForEach(route.customersList, id: \.self) { customer in
-                            VStack(alignment: .leading) {
-                                Text("Name: \(customer.name ?? "Unknown")")
-                                Text("Address: \(customer.address ?? "Unknown")")
-                                Text("Phone: \(customer.phoneNumber ?? "Unknown")")
-                                NavigationLink(destination: CustomerDetailView(customer: customer, route: route)) {
-                                    Text("Details")
-                                }
+                    NavigationLink(destination: DeliverySummaryView(route: route)) {
+                        Text("View Summary")
+                            .font(.headline)
+                            .foregroundColor(.blue)
+                    }
+                    .padding(.vertical, 5)
+                }
+            }
+
+            if userRole == .deliveryManager {
+                Section(header: Text("Customers")) {
+                    ForEach(route.customersList, id: \.self) { customer in
+                        VStack(alignment: .leading) {
+                            Text("Name: \(customer.name ?? "Unknown")")
+                                .font(.headline)
+                            Text("Address: \(customer.address ?? "Unknown")")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                            NavigationLink(destination: CustomerDetailView(customer: customer, route: route)) {
+                                Text("Details")
+                                    .font(.subheadline)
+                                    .foregroundColor(.blue)
                             }
-                            .padding()
                         }
+                        .padding(.vertical, 5)
                     }
                 }
             }
 
             if userRole == .admin {
-                HStack {
+                Section {
                     NavigationLink(destination: EditRouteView(route: route), isActive: $showEditRoute) {
-                        Button("Edit Route") {
-                            showEditRoute = true
-                        }
-                        .buttonStyle(PrimaryButtonStyle())
-                    }
-                    
-                    Button("Delete Route") {
-                        deleteRoute()
-                    }
-                    .buttonStyle(DestructiveButtonStyle())
-                }
-            }
-
-            if userRole == .deliveryManager {
-                VStack {
-                    if !route.isStarted {
-                        Button("Start Route") {
-                            route.isStarted = true
-                            saveContext()
-                        }
-                        .buttonStyle(PrimaryButtonStyle())
-                    } else if route.isStarted && !route.isCompleted {
-                        Button("Complete Route") {
-                            route.isCompleted = true
-                            saveContext()
-                        }
-                        .buttonStyle(PrimaryButtonStyle())
-                    }
-                    
-                    NavigationLink(destination: DeliverySummaryView(route: route)) {
-                        Text("View Summary")
+                        Text("Edit Route")
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(Color.blue)
                             .foregroundColor(.white)
                             .cornerRadius(10)
-                            .padding(.top, 10)
+                    }
+
+                    Button("Delete Route") {
+                        deleteRoute()
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.red)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                }
+            }
+
+            if userRole == .deliveryManager {
+                Section {
+                    if !route.isStarted {
+                        Button("Start Route") {
+                            route.isStarted = true
+                            saveContext()
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                    } else if route.isStarted && !route.isCompleted {
+                        Button("Complete Route") {
+                            route.isCompleted = true
+                            saveContext()
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
                     }
                 }
             }
         }
-        .navigationBarTitle("Route Details")
+        .navigationBarTitle("Route Details", displayMode: .inline)
     }
 
     private func saveContext() {
@@ -102,5 +129,15 @@ extension Route {
     var customersList: [Customer] {
         let set = customers as? Set<Customer> ?? []
         return Array(set)
+    }
+}
+
+struct RouteDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        let context = PersistenceController.preview.container.viewContext
+        let route = Route(context: context)
+        route.identifier = "Test Route"
+        route.date = Date()
+        return RouteDetailView(route: route).environment(\.managedObjectContext, context)
     }
 }

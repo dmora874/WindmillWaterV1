@@ -13,69 +13,26 @@ struct CustomerDetailView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                Section(header: Text("Customer Details").font(.headline)) {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("Name: \(customer.name ?? "")")
-                        Text("Address: \(customer.address ?? "")")
-                        Text("Phone Number: \(customer.phoneNumber ?? "")")
-                        Text("Notes: \(customer.notes ?? "")")
-                        Text("Pricing Information: \(customer.pricingInformation ?? "")")
-                        Text("Payment Method: \(customer.paymentMethod ?? "")")
-                    }
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
-                }
+                customerDetailsSection
+                Divider().padding(.vertical, 10)
+                defaultDeliveriesSection
+                Divider().padding(.vertical, 10)
+                quantitiesSection(title: "Delivered Quantities", quantities: $deliveredQuantities)
+                Divider().padding(.vertical, 10)
+                quantitiesSection(title: "Returned Quantities", quantities: $returnedQuantities)
 
-                Section(header: Text("Default Deliveries").font(.headline)) {
-                    VStack(spacing: 10) {
-                        ForEach((customer.defaultDeliveries as? Set<DefaultDelivery> ?? []).sorted { $0.bottleType ?? "" < $1.bottleType ?? "" }) { delivery in
-                            HStack {
-                                Text("Bottle Type: \(delivery.bottleType ?? "")")
-                                Spacer()
-                                Text("Water Type: \(delivery.waterType ?? "")")
-                            }
-                            .padding()
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                        }
-                    }
-                }
-
-                Section(header: Text("Delivered Quantities").font(.headline)) {
-                    VStack(spacing: 10) {
-                        ForEach((customer.defaultDeliveries as? Set<DefaultDelivery> ?? []).sorted { $0.bottleType ?? "" < $1.bottleType ?? "" }) { delivery in
-                            StepperWithLabel(label: "\(delivery.bottleType ?? "") \(delivery.waterType ?? "")", value: Binding(
-                                get: { self.deliveredQuantities[delivery.bottleType ?? ""] ?? 0 },
-                                set: { self.deliveredQuantities[delivery.bottleType ?? ""] = $0 }
-                            ))
-                            .padding()
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                        }
-                    }
-                }
-
-                Section(header: Text("Returned Quantities").font(.headline)) {
-                    VStack(spacing: 10) {
-                        ForEach((customer.defaultDeliveries as? Set<DefaultDelivery> ?? []).sorted { $0.bottleType ?? "" < $1.bottleType ?? "" }) { delivery in
-                            StepperWithLabel(label: "\(delivery.bottleType ?? "")", value: Binding(
-                                get: { self.returnedQuantities[delivery.bottleType ?? ""] ?? 0 },
-                                set: { self.returnedQuantities[delivery.bottleType ?? ""] = $0 }
-                            ))
-                            .padding()
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                        }
-                    }
-                }
-
-                Button("Save") {
+                Button(action: {
                     saveQuantities()
                     loadExistingQuantities()  // Reload quantities after saving
                     presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Save")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
                 }
-                .buttonStyle(PrimaryButtonStyle())
                 .padding()
             }
             .padding()
@@ -83,6 +40,70 @@ struct CustomerDetailView: View {
         .navigationBarTitle("Customer Delivery", displayMode: .inline)
         .onAppear {
             loadExistingQuantities()
+        }
+    }
+
+    private var customerDetailsSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Customer Details")
+                .font(.headline)
+                .padding(.bottom, 5)
+
+            detailRow(label: "Name", value: customer.name)
+            detailRow(label: "Address", value: customer.address)
+            detailRow(label: "Phone Number", value: customer.phoneNumber)
+            detailRow(label: "Notes", value: customer.notes)
+            detailRow(label: "Pricing Information", value: customer.pricingInformation)
+            detailRow(label: "Payment Method", value: customer.paymentMethod)
+        }
+        .padding()
+        .background(Color(.systemGray6))
+        .cornerRadius(8)
+    }
+
+    private var defaultDeliveriesSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Default Deliveries")
+                .font(.headline)
+                .padding(.bottom, 5)
+
+            ForEach((customer.defaultDeliveries as? Set<DefaultDelivery> ?? []).sorted { $0.bottleType ?? "" < $1.bottleType ?? "" }) { delivery in
+                HStack {
+                    Text("Bottle Type: \(delivery.bottleType ?? "")")
+                    Spacer()
+                    Text("Water Type: \(delivery.waterType ?? "")")
+                }
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
+            }
+        }
+    }
+
+    private func quantitiesSection(title: String, quantities: Binding<[String: Int16]>) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(title)
+                .font(.headline)
+                .padding(.bottom, 5)
+
+            ForEach((customer.defaultDeliveries as? Set<DefaultDelivery> ?? []).sorted { $0.bottleType ?? "" < $1.bottleType ?? "" }) { delivery in
+                StepperWithLabel(label: "\(delivery.bottleType ?? "") \(delivery.waterType ?? "")", value: Binding(
+                    get: { quantities.wrappedValue[delivery.bottleType ?? ""] ?? 0 },
+                    set: { quantities.wrappedValue[delivery.bottleType ?? ""] = $0 }
+                ))
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
+            }
+        }
+    }
+
+    private func detailRow(label: String, value: String?) -> some View {
+        HStack {
+            Text("\(label):")
+                .bold()
+            Spacer()
+            Text(value ?? "")
         }
     }
 
