@@ -8,102 +8,124 @@ struct RouteDetailView: View {
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
-        List {
-            Section(header: Text("Route Details")) {
-                HStack {
-                    Text("Identifier:")
-                    Spacer()
-                    Text(route.identifier ?? "")
-                }
-                HStack {
-                    Text("Date:")
-                    Spacer()
-                    Text("\(route.date ?? Date(), formatter: itemFormatter)")
-                }
-                HStack {
-                    Text("Status:")
-                    Spacer()
-                    Text(route.isCompleted ? "Completed" : (route.isStarted ? "In Progress" : "Not Started"))
-                        .foregroundColor(route.isCompleted ? .green : (route.isStarted ? .blue : .red))
-                }
-                
-                if userRole == .deliveryManager {
-                    NavigationLink(destination: DeliverySummaryView(route: route)) {
-                        Text("View Summary")
-                            .font(.headline)
-                            .foregroundColor(.blue)
-                    }
-                    .padding(.vertical, 5)
-                }
-            }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Route Details")
+                        .font(.headline)
+                        .padding(.bottom, 5)
 
-            if userRole == .deliveryManager {
-                Section(header: Text("Customers")) {
-                    ForEach(route.customersList, id: \.self) { customer in
-                        VStack(alignment: .leading) {
-                            Text("Name: \(customer.name ?? "Unknown")")
+                    HStack {
+                        Text("Identifier:")
+                            .bold()
+                        Spacer()
+                        Text(route.identifier ?? "")
+                    }
+                    HStack {
+                        Text("Date:")
+                            .bold()
+                        Spacer()
+                        Text("\(route.date ?? Date(), formatter: itemFormatter)")
+                    }
+                    HStack {
+                        Text("Status:")
+                            .bold()
+                        Spacer()
+                        Text(route.isCompleted ? "Completed" : (route.isStarted ? "In Progress" : "Not Started"))
+                            .foregroundColor(route.isCompleted ? .green : (route.isStarted ? .blue : .red))
+                    }
+
+                    if userRole == .deliveryManager {
+                        NavigationLink(destination: DeliverySummaryView(route: route)) {
+                            Text("View Summary")
                                 .font(.headline)
-                            Text("Address: \(customer.address ?? "Unknown")")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                            NavigationLink(destination: CustomerDetailView(customer: customer, route: route)) {
-                                Text("Details")
-                                    .font(.subheadline)
-                                    .foregroundColor(.blue)
-                            }
+                                .foregroundColor(.blue)
                         }
                         .padding(.vertical, 5)
                     }
                 }
-            }
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
 
-            if userRole == .admin {
-                Section {
-                    NavigationLink(destination: EditRouteView(route: route), isActive: $showEditRoute) {
-                        Text("Edit Route")
+                if userRole == .deliveryManager {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Customers")
+                            .font(.headline)
+                            .padding(.bottom, 5)
+
+                        ForEach(route.customersList, id: \.self) { customer in
+                            VStack(alignment: .leading) {
+                                Text("Name: \(customer.name ?? "Unknown")")
+                                    .font(.headline)
+                                Text("Address: \(customer.address ?? "Unknown")")
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                                NavigationLink(destination: CustomerDetailView(customer: customer, route: route)) {
+                                    Text("Details")
+                                        .font(.subheadline)
+                                        .foregroundColor(.blue)
+                                }
+                            }
+                            .padding(.vertical, 5)
+                        }
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
+                }
+
+                if userRole == .admin {
+                    VStack(spacing: 10) {
+                        NavigationLink(destination: EditRouteView(route: route), isActive: $showEditRoute) {
+                            Text("Edit Route")
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.gray.opacity(0.2))
+                                .foregroundColor(.black)
+                                .cornerRadius(10)
+                        }
+
+                        Button("Delete Route") {
+                            deleteRoute()
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.gray.opacity(0.2))
+                        .foregroundColor(.black)
+                        .cornerRadius(10)
+                    }
+                    .padding()
+                }
+
+                if userRole == .deliveryManager {
+                    VStack(spacing: 10) {
+                        if !route.isStarted {
+                            Button("Start Route") {
+                                route.isStarted = true
+                                saveContext()
+                            }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
+                            .background(Color.gray.opacity(0.2))
+                            .foregroundColor(.black)
                             .cornerRadius(10)
+                        } else if route.isStarted && !route.isCompleted {
+                            Button("Complete Route") {
+                                route.isCompleted = true
+                                saveContext()
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.gray.opacity(0.2))
+                            .foregroundColor(.black)
+                            .cornerRadius(10)
+                        }
                     }
-
-                    Button("Delete Route") {
-                        deleteRoute()
-                    }
-                    .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.red)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
                 }
             }
-
-            if userRole == .deliveryManager {
-                Section {
-                    if !route.isStarted {
-                        Button("Start Route") {
-                            route.isStarted = true
-                            saveContext()
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                    } else if route.isStarted && !route.isCompleted {
-                        Button("Complete Route") {
-                            route.isCompleted = true
-                            saveContext()
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                    }
-                }
-            }
+            .padding()
         }
         .navigationBarTitle("Route Details", displayMode: .inline)
     }

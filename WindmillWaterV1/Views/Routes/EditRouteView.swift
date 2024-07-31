@@ -24,40 +24,72 @@ struct EditRouteView: View {
     }
 
     var body: some View {
-        VStack {
-            Form {
-                Section(header: Text("Route Details")) {
-                    TextField("Identifier", text: $identifier)
-                    DatePicker("Date", selection: $date, displayedComponents: .date)
-                }
-            }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Route Details")
+                        .font(.headline)
+                        .padding(.bottom, 5)
 
-            Form {
-                Section(header: Text("Customers")) {
-                    List {
-                        ForEach(customers, id: \.self) { customer in
-                            CustomerSelectionRow(customer: customer, isSelected: selectedCustomers.contains(customer)) {
-                                if selectedCustomers.contains(customer) {
-                                    selectedCustomers.remove(customer)
-                                } else {
-                                    selectedCustomers.insert(customer)
-                                }
-                            }
-                        }
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text("Identifier")
+                            .bold()
+                        TextField("Identifier", text: $identifier)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.bottom, 10)
+                    }
+
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text("Date")
+                            .bold()
+                        DatePicker("Date", selection: $date, displayedComponents: .date)
+                            .datePickerStyle(GraphicalDatePickerStyle())
+                            .padding(.bottom, 10)
                     }
                 }
-            }
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
 
-            Button("Save") {
-                route.identifier = identifier
-                route.date = date
-                route.customers = NSSet(set: selectedCustomers)
-                saveContext()
-                presentationMode.wrappedValue.dismiss()
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Customers")
+                        .font(.headline)
+                        .padding(.bottom, 5)
+
+                    ForEach(customers, id: \.self) { customer in
+                        CustomerSelectionRow(customer: customer, isSelected: selectedCustomers.contains(customer)) {
+                            if selectedCustomers.contains(customer) {
+                                selectedCustomers.remove(customer)
+                            } else {
+                                selectedCustomers.insert(customer)
+                            }
+                        }
+                        .padding(.vertical, 5)
+                    }
+                }
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
+
+                Button(action: {
+                    route.identifier = identifier
+                    route.date = date
+                    route.customers = NSSet(set: selectedCustomers)
+                    saveContext()
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Save")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.gray.opacity(0.2))
+                        .foregroundColor(.black)
+                        .cornerRadius(10)
+                }
+                .padding()
             }
-            .buttonStyle(PrimaryButtonStyle())
+            .padding()
         }
-        .navigationBarTitle("Edit Route")
+        .navigationBarTitle("Edit Route", displayMode: .inline)
     }
 
     private func saveContext() {
@@ -72,6 +104,10 @@ struct EditRouteView: View {
 
 struct EditRouteView_Previews: PreviewProvider {
     static var previews: some View {
-        EditRouteView(route: Route()).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        let context = PersistenceController.preview.container.viewContext
+        let route = Route(context: context)
+        route.identifier = "Test Route"
+        route.date = Date()
+        return EditRouteView(route: route).environment(\.managedObjectContext, context)
     }
 }
