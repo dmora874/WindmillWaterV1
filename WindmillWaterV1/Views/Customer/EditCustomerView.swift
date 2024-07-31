@@ -27,77 +27,83 @@ struct EditCustomerView: View {
     }
 
     var body: some View {
-        Form {
-            Section(header: Text("Customer Details").font(.headline).foregroundColor(.gray)) {
-                TextField("Name", text: $name)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.vertical, 5)
-                TextField("Address", text: $address)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.vertical, 5)
-                TextField("Phone Number", text: $phoneNumber)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.vertical, 5)
-                TextField("Notes", text: $notes)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.vertical, 5)
-                TextField("Pricing Information", text: $pricingInformation)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.vertical, 5)
-                TextField("Payment Method", text: $paymentMethod)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.vertical, 5)
-            }
-
-            Section(header: Text("Default Deliveries").font(.headline).foregroundColor(.gray)) {
-                ForEach(defaultDeliveries.indices, id: \.self) { index in
-                    HStack {
-                        Picker("Bottle Type", selection: $defaultDeliveries[index].bottleType) {
-                            Text("5G").tag("5G")
-                            Text("3G").tag("3G")
-                            Text("Hg").tag("Hg")
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                        .frame(maxWidth: .infinity)
+        ScrollView {
+            VStack(spacing: 20) {
+                Section(header: Text("Customer Details").font(.headline).foregroundColor(.gray)) {
+                    TextField("Name", text: $name)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(.vertical, 5)
-
-                        Picker("Water Type", selection: $defaultDeliveries[index].waterType) {
-                            Text("Regular").tag("Regular")
-                            Text("Taos").tag("Taos")
-                            Text("Distilled").tag("Distilled")
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                        .frame(maxWidth: .infinity)
+                    TextField("Address", text: $address)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(.vertical, 5)
+                    TextField("Phone Number", text: $phoneNumber)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.vertical, 5)
+                    TextField("Notes", text: $notes)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.vertical, 5)
+                    TextField("Pricing Information", text: $pricingInformation)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.vertical, 5)
+                    TextField("Payment Method", text: $paymentMethod)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.vertical, 5)
+                }
 
-                        if index == defaultDeliveries.count - 1 {
-                            Button(action: {
-                                defaultDeliveries.append(DeliveryDetail())
-                            }) {
-                                Image(systemName: "plus")
-                                    .foregroundColor(.blue)
+                Section(header: Text("Default Deliveries").font(.headline).foregroundColor(.gray)) {
+                    ForEach(defaultDeliveries.indices, id: \.self) { index in
+                        HStack {
+                            Picker("Bottle Type", selection: $defaultDeliveries[index].bottleType) {
+                                Text("5G").tag("5G")
+                                Text("3G").tag("3G")
+                                Text("Hg").tag("Hg")
                             }
-                        } else {
-                            Button(action: {
-                                defaultDeliveries.remove(at: index)
-                            }) {
-                                Image(systemName: "minus")
-                                    .foregroundColor(.red)
+                            .pickerStyle(MenuPickerStyle())
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 5)
+
+                            Picker("Water Type", selection: $defaultDeliveries[index].waterType) {
+                                Text("Regular").tag("Regular")
+                                Text("Taos").tag("Taos")
+                                Text("Distilled").tag("Distilled")
+                            }
+                            .pickerStyle(MenuPickerStyle())
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 5)
+
+                            if index == defaultDeliveries.count - 1 {
+                                Button(action: {
+                                    defaultDeliveries.append(DeliveryDetail())
+                                }) {
+                                    Image(systemName: "plus")
+                                        .foregroundColor(.blue)
+                                }
+                            } else {
+                                Button(action: {
+                                    defaultDeliveries.remove(at: index)
+                                }) {
+                                    Image(systemName: "minus")
+                                        .foregroundColor(.red)
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            Button("Save") {
-                saveCustomer()
-                presentationMode.wrappedValue.dismiss()
+                Button(action: {
+                    saveCustomer()
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Save")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.gray.opacity(0.2))
+                        .foregroundColor(.black)
+                        .cornerRadius(10)
+                }
+                .padding()
             }
-            .frame(maxWidth: .infinity)
             .padding()
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(10)
         }
         .navigationBarTitle("Edit Customer", displayMode: .inline)
     }

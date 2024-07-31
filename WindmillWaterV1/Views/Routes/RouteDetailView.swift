@@ -55,19 +55,16 @@ struct RouteDetailView: View {
                             .padding(.bottom, 5)
 
                         ForEach(route.customersList, id: \.self) { customer in
-                            VStack(alignment: .leading) {
-                                Text("Name: \(customer.name ?? "Unknown")")
-                                    .font(.headline)
-                                Text("Address: \(customer.address ?? "Unknown")")
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
-                                NavigationLink(destination: CustomerDetailView(customer: customer, route: route)) {
-                                    Text("Details")
+                            NavigationLink(destination: CustomerDetailView(customer: customer, route: route)) {
+                                VStack(alignment: .leading) {
+                                    Text("Name: \(customer.name ?? "Unknown")")
+                                        .font(.headline)
+                                    Text("Address: \(customer.address ?? "Unknown")")
                                         .font(.subheadline)
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(.secondary)
                                 }
+                                .padding(.vertical, 5)
                             }
-                            .padding(.vertical, 5)
                         }
                     }
                     .padding()

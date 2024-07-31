@@ -14,11 +14,8 @@ struct CustomerDetailView: View {
         ScrollView {
             VStack(spacing: 20) {
                 customerDetailsSection
-                Divider().padding(.vertical, 10)
                 defaultDeliveriesSection
-                Divider().padding(.vertical, 10)
                 quantitiesSection(title: "Delivered Quantities", quantities: $deliveredQuantities)
-                Divider().padding(.vertical, 10)
                 quantitiesSection(title: "Returned Quantities", quantities: $returnedQuantities)
 
                 Button(action: {
@@ -29,11 +26,11 @@ struct CustomerDetailView: View {
                     Text("Save")
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
+                        .background(Color.gray.opacity(0.2))
+                        .foregroundColor(.black)
                         .cornerRadius(10)
                 }
-                .padding()
+                .padding(.horizontal)
             }
             .padding()
         }
@@ -78,6 +75,7 @@ struct CustomerDetailView: View {
                 .cornerRadius(8)
             }
         }
+        .padding(.horizontal)
     }
 
     private func quantitiesSection(title: String, quantities: Binding<[String: Int16]>) -> some View {
@@ -96,6 +94,7 @@ struct CustomerDetailView: View {
                 .cornerRadius(8)
             }
         }
+        .padding(.horizontal)
     }
 
     private func detailRow(label: String, value: String?) -> some View {
@@ -105,6 +104,7 @@ struct CustomerDetailView: View {
             Spacer()
             Text(value ?? "")
         }
+        .padding(.vertical, 5)
     }
 
     private func loadExistingQuantities() {
