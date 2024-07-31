@@ -3,20 +3,26 @@ import SwiftUI
 struct StepperWithLabel: View {
     let label: String
     @Binding var value: Int16
+    @State private var isEditing = false
 
     var body: some View {
         HStack {
             Text(label)
+                .font(.subheadline)
             Spacer()
-            Stepper(value: $value, in: 0...Int16.max) {
-                Text("\(value)")
+            HStack {
+                Stepper("", value: $value)
+                    .labelsHidden()
+                TextField("", value: $value, formatter: NumberFormatter())
+                    .frame(width: 50)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .multilineTextAlignment(.center)
+                    .keyboardType(.numberPad)
+                    .onTapGesture {
+                        isEditing = true
+                    }
             }
         }
-    }
-}
-
-struct StepperWithLabel_Previews: PreviewProvider {
-    static var previews: some View {
-        StepperWithLabel(label: "5G Reg", value: .constant(0))
+        .padding()
     }
 }
