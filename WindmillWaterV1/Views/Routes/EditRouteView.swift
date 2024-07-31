@@ -8,6 +8,7 @@ struct EditRouteView: View {
     @State private var identifier: String
     @State private var date: Date
     @State private var selectedCustomers: Set<Customer> = []
+    @State private var searchText: String = ""
 
     @FetchRequest(
         entity: Customer.entity(),
@@ -56,7 +57,11 @@ struct EditRouteView: View {
                         .font(.headline)
                         .padding(.bottom, 5)
 
-                    ForEach(customers, id: \.self) { customer in
+                    TextField("Search Customers", text: $searchText)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.bottom, 10)
+
+                    ForEach(filteredCustomers, id: \.self) { customer in
                         CustomerSelectionRow(customer: customer, isSelected: selectedCustomers.contains(customer)) {
                             if selectedCustomers.contains(customer) {
                                 selectedCustomers.remove(customer)
@@ -90,6 +95,14 @@ struct EditRouteView: View {
             .padding()
         }
         .navigationBarTitle("Edit Route", displayMode: .inline)
+    }
+
+    private var filteredCustomers: [Customer] {
+        if searchText.isEmpty {
+            return Array(customers)
+        } else {
+            return customers.filter { $0.name?.localizedCaseInsensitiveContains(searchText) == true }
+        }
     }
 
     private func saveContext() {

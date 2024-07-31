@@ -11,34 +11,83 @@ struct AddRouteView: View {
 
     @State private var identifier: String = ""
     @State private var date: Date = Date()
-    @State private var selectedCustomers: [Customer] = []
+    @State private var selectedCustomers: Set<Customer> = []
+    @State private var searchText: String = ""
 
     var body: some View {
-        NavigationView {
-            Form {
-                Section(header: Text("Route Details")) {
-                    TextField("Identifier", text: $identifier)
-                    DatePicker("Date", selection: $date, displayedComponents: .date)
-                }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Route Details")
+                        .font(.headline)
+                        .padding(.bottom, 5)
 
-                Section(header: Text("Customers")) {
-                    List {
-                        ForEach(customers) { customer in
-                            CustomerSelectionRow(customer: customer, isSelected: selectedCustomers.contains(customer)) {
-                                if selectedCustomers.contains(customer) {
-                                    selectedCustomers.removeAll { $0 == customer }
-                                } else {
-                                    selectedCustomers.append(customer)
-                                }
-                            }
-                        }
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text("Identifier")
+                            .bold()
+                        TextField("Identifier", text: $identifier)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.bottom, 10)
+                    }
+
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text("Date")
+                            .bold()
+                        DatePicker("Date", selection: $date, displayedComponents: .date)
+                            .datePickerStyle(GraphicalDatePickerStyle())
+                            .padding(.bottom, 10)
                     }
                 }
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
+
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Customers")
+                        .font(.headline)
+                        .padding(.bottom, 5)
+
+                    TextField("Search Customers", text: $searchText)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.bottom, 10)
+
+                    ForEach(filteredCustomers, id: \.self) { customer in
+                        CustomerSelectionRow(customer: customer, isSelected: selectedCustomers.contains(customer)) {
+                            if selectedCustomers.contains(customer) {
+                                selectedCustomers.remove(customer)
+                            } else {
+                                selectedCustomers.insert(customer)
+                            }
+                        }
+                        .padding(.vertical, 5)
+                    }
+                }
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
+
+                Button(action: {
+                    addRoute()
+                }) {
+                    Text("Save")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.gray.opacity(0.2))
+                        .foregroundColor(.black)
+                        .cornerRadius(10)
+                }
+                .padding()
             }
-            .navigationBarTitle("Add Route")
-            .navigationBarItems(trailing: Button("Save") {
-                addRoute()
-            })
+            .padding()
+        }
+        .navigationBarTitle("Add Route", displayMode: .inline)
+    }
+
+    private var filteredCustomers: [Customer] {
+        if searchText.isEmpty {
+            return Array(customers)
+        } else {
+            return customers.filter { $0.name?.localizedCaseInsensitiveContains(searchText) == true }
         }
     }
 
@@ -46,7 +95,7 @@ struct AddRouteView: View {
         let newRoute = Route(context: viewContext)
         newRoute.identifier = identifier
         newRoute.date = date
-        newRoute.customers = NSSet(array: selectedCustomers)
+        newRoute.customers = NSSet(set: selectedCustomers)
 
         do {
             try viewContext.save()
