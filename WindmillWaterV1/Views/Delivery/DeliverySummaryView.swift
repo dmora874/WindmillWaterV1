@@ -11,39 +11,36 @@ struct DeliverySummaryView: View {
                 .font(.largeTitle)
                 .padding()
 
-            VStack(alignment: .leading) {
-                Text("TOTAL BOTTLES DELIVERED")
-                    .font(.headline)
-                    .padding(.top, 10)
-
-                ForEach(totalBottles(by: \.deliveredQuantity).sorted(by: { $0.key < $1.key }), id: \.key) { bottleType, total in
-                    Text("\(bottleType): \(total)")
-                }
-                
-                Text("TOTAL BOTTLES RETURNED")
-                    .font(.headline)
-                    .padding(.top, 10)
-
-                ForEach(totalBottles(by: \.returnedQuantity).sorted(by: { $0.key < $1.key }), id: \.key) { bottleType, total in
-                    Text("\(bottleType): \(total)")
-                }
-            }
-            .padding()
-
             List {
-                ForEach(route.customersArray, id: \.self) { customer in
+                let customers = route.customersArray
+
+                let deliveriesByBottleType = Dictionary(grouping: customers.flatMap { $0.dailyDeliveriesList.filter { $0.route == route } }) { $0.bottleType }
+
+                Section(header: Text("Total Bottles Delivered:")) {
+                    ForEach(deliveriesByBottleType.keys.sorted(by: { ($0 ?? "") < ($1 ?? "") }), id: \.self) { bottleType in
+                        let totalDelivered = deliveriesByBottleType[bottleType]?.reduce(0) { $0 + ($1.deliveredQuantity ?? 0) } ?? 0
+                        Text("\(bottleType ?? "") Delivered: \(totalDelivered)")
+                    }
+                }
+
+                Section(header: Text("Total Bottles Returned:")) {
+                    ForEach(deliveriesByBottleType.keys.sorted(by: { ($0 ?? "") < ($1 ?? "") }), id: \.self) { bottleType in
+                        let totalReturned = deliveriesByBottleType[bottleType]?.reduce(0) { $0 + ($1.returnedQuantity ?? 0) } ?? 0
+                        Text("\(bottleType ?? "") Returned: \(totalReturned)")
+                    }
+                }
+
+                ForEach(customers, id: \.self) { customer in
                     VStack(alignment: .leading) {
                         Text("Customer: \(customer.name ?? "Unknown")")
                             .font(.headline)
 
                         let deliveries = customer.dailyDeliveriesList.filter { $0.route == route }
 
-                        ForEach(deliveries.groupedBy(\.bottleType).sorted(by: { $0.key ?? "" < $1.key ?? "" }), id: \.key) { bottleType, group in
+                        ForEach(deliveries, id: \.self) { delivery in
                             VStack(alignment: .leading) {
-                                if let type = bottleType {
-                                    Text("\(type) Delivered: \(group.reduce(0) { $0 + $1.deliveredQuantity })")
-                                    Text("\(type) Returned: \(group.reduce(0) { $0 + $1.returnedQuantity })")
-                                }
+                                Text("\(delivery.bottleType ?? "") \(delivery.waterType ?? "") Delivered: \(delivery.deliveredQuantity)")
+                                Text("\(delivery.bottleType ?? "") Returned: \(delivery.returnedQuantity)")
                             }
                         }
                     }
@@ -54,6 +51,7 @@ struct DeliverySummaryView: View {
                 }
             }
         }
+        .padding()
         .navigationBarTitle("Delivery Summary", displayMode: .inline)
     }
 
