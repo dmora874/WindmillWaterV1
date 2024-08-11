@@ -1,13 +1,7 @@
 import SwiftUI
-import CoreData
 
 struct CustomersListView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Customer.name, ascending: true)],
-        animation: .default)
-    private var customers: FetchedResults<Customer>
-    
+    @State private var customersData: [[String]] = []
     @State private var showAddCustomerView = false
     @State private var searchText: String = ""
     
@@ -19,20 +13,21 @@ struct CustomersListView: View {
                     .padding()
                 
                 List {
-                    ForEach(filteredCustomers) { customer in
-                        NavigationLink(destination: EditCustomerView(customer: customer)) {
-                            Text(customer.name ?? "Unknown")
+                    ForEach(filteredCustomers, id: \.self) { customer in
+                        NavigationLink(destination: Text("Edit Customer View")) {
+                            Text(customer[1])  // Displaying the customer's name
                                 .font(.headline)
                                 .padding(.vertical, 10)
                         }
                     }
-                    .onDelete(perform: deleteCustomers)
                 }
                 .listStyle(PlainListStyle())
                 .navigationBarTitle("Customers")
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        EditButton()
+                        Button(action: fetchGoogleSheetData) {
+                            Text("Refresh")
+                        }
                     }
                     ToolbarItem {
                         Button(action: { showAddCustomerView.toggle() }) {
@@ -41,29 +36,34 @@ struct CustomersListView: View {
                     }
                 }
                 .sheet(isPresented: $showAddCustomerView) {
-                    AddCustomerView().environment(\.managedObjectContext, viewContext)
+                    // Replace with your AddCustomerView or create a Google Sheets write function
+                    Text("Add Customer View")
                 }
                 .background(Color(.systemGray6).edgesIgnoringSafeArea(.all))
+                .onAppear(perform: fetchGoogleSheetData)
             }
         }
     }
     
-    private var filteredCustomers: [Customer] {
+    private var filteredCustomers: [[String]] {
         if searchText.isEmpty {
-            return Array(customers)
+            return customersData
         } else {
-            return customers.filter { $0.name?.localizedCaseInsensitiveContains(searchText) == true }
+            return customersData.filter { $0[1].localizedCaseInsensitiveContains(searchText) }  // Filtering by customer name
         }
     }
 
-    private func deleteCustomers(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { customers[$0] }.forEach(viewContext.delete)
-            do {
-                try viewContext.save()
-            } catch {
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+    private func fetchGoogleSheetData() {
+        let googleSheetsService = GoogleSheetsService()
+        googleSheetsService.fetchCustomerData { values in
+            if let values = values {
+                DispatchQueue.main.async {
+                    // Sort customers alphabetically by name (assuming name is in the second column, index 1)
+                    self.customersData = values.sorted(by: { $0[1].localizedCaseInsensitiveCompare($1[1]) == .orderedAscending })
+                    print("Customer Data (sorted): \(values)")
+                }
+            } else {
+                print("Failed to fetch data from Google Sheets")
             }
         }
     }
@@ -71,6 +71,6 @@ struct CustomersListView: View {
 
 struct CustomersListView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomersListView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        CustomersListView()
     }
 }
